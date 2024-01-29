@@ -111,6 +111,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@repo/database':
+        specifier: 'workspace:'
+        version: link:../../packages/database
       next:
         specifier: 14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)

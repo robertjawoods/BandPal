@@ -1,16 +1,12 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import { prisma, PrismaClient } from "@repo/database";
+import { type Band } from "@repo/database";
 
 export default async function Home() {
-  console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
-  const bands = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL!}/band`)
-
+  const bands: Band[] = await (await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL!}/band`)).json();
 
   return (
-    <main className={styles.main}>
+    <main >
       {
-        bands.map(b => <p>{b.}</p>)
+        bands.map(b => <p key={b.id}>{b.name}</p>)
       }
     </main>
   );
