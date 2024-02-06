@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+}
+
+model User {
+  id            String  @id @default(uuid())
+  email         String  @unique
+  name          String?
+  administrator Band[]  @relation("BandAdmin")
+  bands         Band[]
+}
+
+model Band {
+  id      String @id @default(uuid())
+  name    String
+  admin   User   @relation("BandAdmin", fields: [userId], references: [id])
+  userId  String
+  members User[]
+  
+  @@unique([userId, name])
+}
+
+model Song {
+  id             String    @id @default(uuid())
+  name           String
+  lengthSeconds  Int
+  timeSignatures String
+  lyrics         String
+  tags           String
+  setlists       Setlist[]
+}
+
+model Setlist {
+  id    String @id @default(uuid())
+  name  String
+  songs Song[]
+}
