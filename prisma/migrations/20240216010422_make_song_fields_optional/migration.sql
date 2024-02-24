@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Song" ALTER COLUMN "timeSignatures" DROP NOT NULL,
+ALTER COLUMN "lyrics" DROP NOT NULL,
+ALTER COLUMN "tags" DROP NOT NULL;
