@@ -14,4 +14,25 @@ export const {
     allowDangerousEmailAccountLinking: true,
   })],
   adapter: PrismaAdapter(prisma),
-})
+  events: {
+    createUser: async (message) => {
+      const object = {
+        id: message.user.id,
+        name: message.user.name,
+        email: message.user.email,
+      }
+
+      try {
+        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/webhooks/create/user`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(object),
+        });
+      }
+      catch (err) {
+        console.error(`An error occurred while indexing user:`, err)
+      }
+    }
+  }})
