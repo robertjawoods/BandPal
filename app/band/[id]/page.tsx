@@ -1,6 +1,12 @@
+import { auth } from "@/app/auth";
 import prisma from "@/app/lib/prisma";
+import AddMember from "./AddMember";
+import Members from "./Members";
 
 export default async function Page({ params }: { params: { id: string } }) {
+
+  const session = await auth();
+
 
   const band = await prisma.band.findFirst({
     where: {
@@ -15,14 +21,13 @@ export default async function Page({ params }: { params: { id: string } }) {
     return <div>Band not found</div>
   }
 
-  console.log(band);
 
   return <div>
     <p>{band.name}</p>
     <div>
+      {session && session.user && <AddMember bandId={params.id} />}
       <p>Members</p>
-      {band.members.map(m => {
-        return <div key={m.id}>{m.name}</div>
-    })}</div>
+      <Members members={band.members} bandId={params.id} />
+    </div>
   </div>
 }

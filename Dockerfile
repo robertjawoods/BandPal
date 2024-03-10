@@ -15,7 +15,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml* ./
 RUN pnpm i 
 
-RUN pnpm generate
+
 
 FROM base AS dev
 
@@ -35,6 +35,8 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN pnpm generate
 
 RUN pnpm build
 
@@ -58,4 +60,4 @@ COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
 
 USER nodejs
 
-CMD ["node", "server.js"]
+# CMD ["node", "server.js"]
