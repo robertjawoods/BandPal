@@ -4,6 +4,8 @@ import React from "react";
 import { SessionProvider } from "next-auth/react";
 import Navbar from "./components/Navbar";
 
+// These styles apply to every route in the application
+import './globals.css'
 
 const inter = Inter({ subsets: ["latin"] });
 
