@@ -15,7 +15,7 @@ export default async function User({ params }: { params: { id: string } }) {
     return (
         <>
             <h1>{user?.name}</h1>
-            {user?.image && <Image src={user?.image} alt={user?.name ?? ''} width={200} height={200} />}
+            {user?.image && <Image src={user?.image} alt={user?.name ?? ''} width={200} height={200} className="rounded-full" />}
             <h2>Bands</h2>
             <ul>
                 {user?.bands.map(band => (
