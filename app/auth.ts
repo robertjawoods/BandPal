@@ -14,6 +14,14 @@ export const {
     allowDangerousEmailAccountLinking: true,
   })],
   adapter: PrismaAdapter(prisma),
+  callbacks: {
+    session: async ({ session, token, user }) => {
+      if (session?.user) {
+        session.user.id = user.id;
+      }
+      return session;
+    },
+  },
   events: {
     createUser: async (message) => {
       const object = {
@@ -35,4 +43,5 @@ export const {
         console.error(`An error occurred while indexing user:`, err)
       }
     }
-  }})
+  }
+})

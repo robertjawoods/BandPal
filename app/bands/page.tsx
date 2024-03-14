@@ -8,14 +8,17 @@ export default async function Bands() {
 
     return (
         <div>
-            <h1>Bands</h1>
-            <ul>
-                {bands.map((band) => (
-                    <li key={band.id}>
-                        <Link href={`/band/${band.id}`}>{band.name}</Link>
-                    </li>
-                ))}
-            </ul>
+            <div className="text-center flex flex-col gap-3 py-3 justify-center">
+                <h1 className="text-4xl font-bold">Bands</h1>
+                <ul className="justify-center flex flex-col w-80 mx-auto">
+                    {bands.map((band) => (
+                        <li key={band.id} className="hover:bg-slate-700 rounded">
+                            <Link href={`/band/${band.id}`}><h2 className="text-2xl py-2">{band.name}</h2></Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
         </div>
 
     )

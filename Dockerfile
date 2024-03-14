@@ -16,14 +16,6 @@ COPY package.json pnpm-lock.yaml* ./
 RUN pnpm i 
 
 
-
-FROM base AS dev
-
-WORKDIR /app
-
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
@@ -50,6 +42,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN adduser --system --uid 1001 nodejs
 
 COPY --from=builder /app/public ./public
+
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
