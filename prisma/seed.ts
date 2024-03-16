@@ -25,10 +25,16 @@ const createBands = async (users: User[]) => {
             {
                 name: "Five The Hierophant",
                 userId: users[0].id,
+                bio: "Five The Hierophant is a London-based experimental band, formed in 2013 by guitarist Marc De Faoite, drummer Gerallt Ruggiero, and bassist Daniel Knight. The band's music is a mix of doom metal, drone, and dark ambient, with influences from jazz and world music",
+                genre: "Experimental",
+                location: "London"
             },
             {
                 name: "Paradise Row",
                 userId: users[0].id,
+                bio: "Paradise Row is a London-based band, formed in 2015 by singer-songwriter and guitarist, James Collins. The band's music is a mix of indie rock, folk, and blues, with influences from jazz and world music",
+                genre: "Indie",
+                location: "London"
             },
 
 
