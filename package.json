@@ -23,7 +23,8 @@
     "studio": "prisma studio",
     "docker": "docker compose up -d",
     "start:migrate:prod": "prisma migrate deploy && pnpm start",
-    "index": "ts-node index-users.ts"
+    "index": "ts-node index-users.ts",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.17.0",
