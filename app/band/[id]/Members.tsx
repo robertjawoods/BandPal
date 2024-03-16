@@ -21,8 +21,6 @@ export default function Members({ members, bandId }: { members: User[], bandId: 
         });
 
         if (response.ok) {
-
-            // nasty hack to force a re-render
             router.refresh();
         }
     }
