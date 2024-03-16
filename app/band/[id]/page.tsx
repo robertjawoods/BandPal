@@ -13,6 +13,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
     include: {
       members: true
+    },
+    cacheStrategy: {
+      ttl: 60
     }
   });
 

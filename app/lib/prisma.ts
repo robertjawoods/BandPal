@@ -1,17 +1,12 @@
 /* eslint-disable */
 
-import { Pool } from 'pg'
-import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '@prisma/client'
-
-
-const connectionString = process.env.DATABASE_URL
+import { PrismaClient } from '@prisma/client/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
 const prismaClientSingleton = () => {
-  const pool = new Pool({ connectionString })
-  const adapter = new PrismaPg(pool);
-  
-  return new PrismaClient({ adapter })
+
+
+  return new PrismaClient().$extends(withAccelerate())
 }
 
 declare global {

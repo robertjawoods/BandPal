@@ -4,7 +4,11 @@ import prisma from "@/app/lib/prisma";
 
 export default async function Bands() {
 
-    const bands: Band[] = await prisma.band.findMany();
+    const bands: Band[] = await prisma.band.findMany({
+        cacheStrategy: {
+            ttl: 60
+        }
+    });
 
     return (
         <div>

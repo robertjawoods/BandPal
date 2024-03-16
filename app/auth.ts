@@ -3,6 +3,7 @@ import NextAuth from "next-auth"
 import prisma from "./lib/prisma"
 import Google from "next-auth/providers/google"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { PrismaClient } from "@prisma/client/extension"
 
 export const {
   handlers: { GET, POST },
@@ -13,7 +14,7 @@ export const {
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     allowDangerousEmailAccountLinking: true,
   })],
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma as PrismaClient),
   callbacks: {
     session: async ({ session, user }) => {
       if (session?.user) {
