@@ -73,16 +73,19 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?    @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  administrator Band[]     @relation("BandAdmin")
+  administrator Band[]    @relation("BandAdmin")
   bands         Band[]
   profile       Profile?
+  Chat          Chat?     @relation(fields: [chatId], references: [id])
+  chatId        String?
+  Message       Message[]
 }
 
 model Profile {
@@ -96,10 +99,28 @@ model Profile {
 }
 
 model Influence {
-  id    String @id @default(cuid())
-  name  String
+  id        String   @id @default(cuid())
+  name      String
   Profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String?
+}
+
+model Chat {
+  id       String    @id @default(cuid())
+  messages Message[]
+  members  User[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String
+  sender    User     @relation(fields: [senderId], references: [id])
+  senderId  String
+  content   String
+  createdAt DateTime
+
+  @@unique([chatId, id])
 }
 
 model VerificationToken {

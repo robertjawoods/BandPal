@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
 import { SessionProvider } from "next-auth/react";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navigation/Navbar";
 
 // These styles apply to every route in the application
 import './globals.css'

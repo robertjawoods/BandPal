@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 import { RemoveIcon } from "./RemoveIcon";
 
 export default function Members({ members, bandId }: { members: User[], bandId: string }) {
+    const isAdmin = false;
+
+
     const router = useRouter();
 
     const removeMember = async (userId: string) => {

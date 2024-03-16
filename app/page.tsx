@@ -3,8 +3,8 @@ import Link from "next/link";
 import prisma from "./lib/prisma";
 import AccountComponent from "./components/AccountComponent";
 // import { auth } from "./auth";
-import CreateBand from "./components/CreateBand";
-import Navbar from "./components/Navbar";
+import CreateBand from "./band/create/CreateBand";
+import Navbar from "./components/navigation/Navbar";
 import { LandingFeature } from "./components/LandingFeature";
 
 export default async function Home() {
