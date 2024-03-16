@@ -2,6 +2,8 @@ import { User } from "@prisma/client";
 import Link from "next/link";
 import prisma from "@/app/lib/prisma";
 
+export const revalidate = 3
+
 export default async function Users() {
 
     const users: User[] = await prisma.user.findMany();
