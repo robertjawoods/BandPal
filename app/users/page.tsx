@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import Link from "next/link";
 import prisma from "@/app/lib/prisma";
 
-export const revalidate = 3
+export const dynamic = 'force-dynamic' // defaults to auto
 
 export default async function Users() {
 
