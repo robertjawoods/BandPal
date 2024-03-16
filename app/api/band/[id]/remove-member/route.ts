@@ -1,5 +1,7 @@
 export const dynamic = 'force-dynamic' // defaults to auto
 
+import prisma from "@/app/lib/prisma";
+
 interface AddMemberInput {
     userId: string;
 }

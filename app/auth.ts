@@ -15,7 +15,7 @@ export const {
   })],
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    session: async ({ session, token, user }) => {
+    session: async ({ session, user }) => {
       if (session?.user) {
         session.user.id = user.id;
       }

@@ -1,6 +1,6 @@
 import { auth } from "@/app/auth";
 import prisma from "@/app/lib/prisma";
-import UserSearch, { AutocompleteItem } from "../../components/UserSearch";
+import UserSearch, { AutocompleteItem } from "@/app/components/UserSearch";
 import Members from "./Members";
 
 export default async function Page({ params }: { params: { id: string } }) {

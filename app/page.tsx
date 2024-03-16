@@ -1,10 +1,3 @@
-import { type Band } from "@prisma/client";
-import Link from "next/link";
-import prisma from "./lib/prisma";
-import AccountComponent from "./components/AccountComponent";
-// import { auth } from "./auth";
-import CreateBand from "./band/create/CreateBand";
-import Navbar from "./components/navigation/Navbar";
 import { LandingFeature } from "./components/LandingFeature";
 
 export default async function Home() {
@@ -14,7 +7,7 @@ export default async function Home() {
 
       <div className="flex justify-center">
         <div className="text-center flex flex-col content-between">
-          <h1 className="text-3xl font-bold">Unleash Your Band's Potential with BandPal</h1>
+          <h1 className="text-3xl font-bold">Unleash Your Band&apos;s Potential with BandPal</h1>
           <h2 className="text-2xl italic">Experience the rhythm of seamless band management.</h2>
           <div className="flex flex-row">
             <LandingFeature>

@@ -11,7 +11,7 @@ import { Band, Prisma } from "@prisma/client";
 
 import { redirect } from 'next/navigation'
 
-export default async function () {
+export default async function CreateBandPage() {
     const session = await auth();
 
     const submit = async (formaData: FormData) => {
