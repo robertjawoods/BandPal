@@ -1,47 +1,74 @@
 import { Band, PrismaClient, Song, User } from "@prisma/client";
+import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
 const createUsers = async (): Promise<User[]> => {
+    const createRandomUser = () => {
+        return {
+            email: faker.internet.email(),
+            name: faker.person.fullName()
+        }
+    }
+
+    const users = [
+        {
+            email: "admin@gmail.com",
+            name: "Admin"
+        },
+        {
+            email: "user@gmail.com",
+            name: "User"
+        }
+    ]
+
+    users.push(...faker.helpers.multiple(createRandomUser, {
+        count: 10
+    }))
+
     const _ = await prisma.user.createMany({
-        data: [
-            {
-                email: "admin@gmail.com",
-                name: "Admin"
-            },
-            {
-                email: "user@gmail.com",
-                name: "User"
-            }
-        ]
+        data: users
     });
 
     return await prisma.user.findMany();
 }
 
 const createBands = async (users: User[]) => {
+    const createRandomBands = (): Partial<Band> => {
+        return {
+            name: `${faker.word.preposition} ${faker.word.adjective()} ${faker.word.noun()}`,
+            bio: faker.lorem.paragraph(),
+            genre: faker.music.genre(),
+            location: faker.location.city()
+        }
+    }
+
+    const bands = [{
+        name: "Five The Hierophant",
+        userId: users[0].id,
+        bio: "Five The Hierophant is a London-based experimental band, formed in 2013 by guitarist Marc De Faoite, drummer Gerallt Ruggiero, and bassist Daniel Knight. The band's music is a mix of doom metal, drone, and dark ambient, with influences from jazz and world music",
+        genre: "Experimental",
+        location: "London"
+    },
+    {
+        name: "Paradise Row",
+        userId: users[0].id,
+        bio: "Paradise Row is a London-based band, formed in 2015 by singer-songwriter and guitarist, James Collins. The band's music is a mix of indie rock, folk, and blues, with influences from jazz and world music",
+        genre: "Indie",
+        location: "London"
+    }, ...faker.helpers.multiple(createRandomBands, { count: 3 })]
+    
+    for (let band of bands) {
+        let i = 1;
+        
+        band.userId = users[i++].id;
+    }
+
     await prisma.band.createMany({
-        data: [
-            {
-                name: "Five The Hierophant",
-                userId: users[0].id,
-                bio: "Five The Hierophant is a London-based experimental band, formed in 2013 by guitarist Marc De Faoite, drummer Gerallt Ruggiero, and bassist Daniel Knight. The band's music is a mix of doom metal, drone, and dark ambient, with influences from jazz and world music",
-                genre: "Experimental",
-                location: "London"
-            },
-            {
-                name: "Paradise Row",
-                userId: users[0].id,
-                bio: "Paradise Row is a London-based band, formed in 2015 by singer-songwriter and guitarist, James Collins. The band's music is a mix of indie rock, folk, and blues, with influences from jazz and world music",
-                genre: "Indie",
-                location: "London"
-            },
-
-
-        ]
+        data: bands as Band[]
     })
 
-    let bands = await prisma.band.findMany({});
+    // let bands = await prisma.band.findMany({});
 
     for (let band of bands) {
         console.log(band);
@@ -73,7 +100,7 @@ const createSongs = async (bands: Band[]) => {
         }
     });
 
-    const paradiseRow =  await prisma.band.findFirst({
+    const paradiseRow = await prisma.band.findFirst({
         where: {
             name: "Paradise Row"
         }
@@ -115,41 +142,41 @@ const createSongs = async (bands: Band[]) => {
 }
 
 const createSetlists = async (songs: Song[], bands: Band[]) => {
-   const fiveTheHierophantSetlist = await prisma.setlist.create({
-         data: {
-              name: "Five The Hierophant Setlist",
-                band: {
-                     connect: {
-                            id: bands.find(b => b.name === 'Five The Hierophant')!.id
-                     }
-                },
-              songs: {
+    const fiveTheHierophantSetlist = await prisma.setlist.create({
+        data: {
+            name: "Five The Hierophant Setlist",
+            band: {
+                connect: {
+                    id: bands.find(b => b.name === 'Five The Hierophant')!.id
+                }
+            },
+            songs: {
                 connect: songs.filter(s => s.bandId === bands.find(b => b.name === 'Five The Hierophant')?.id).map(s => {
-                     return {
-                          id: s.id
-                     }
+                    return {
+                        id: s.id
+                    }
                 })
-              }
-         }
+            }
+        }
     })
 
     const paradiseRowSetlist = await prisma.setlist.create({
-            data: {
-                name: "Paradise Row Setlist",
-                    band: {
-                        connect: {
-                                id: bands.find(b => b.name === 'Paradise Row')!.id
-                        }
-                    },
-                songs: {
-                    connect: songs.filter(s => s.bandId === bands.find(b => b.name === 'Paradise Row')?.id).map(s => {
-                        return {
-                            id: s.id
-                        }
-                    })
+        data: {
+            name: "Paradise Row Setlist",
+            band: {
+                connect: {
+                    id: bands.find(b => b.name === 'Paradise Row')!.id
                 }
+            },
+            songs: {
+                connect: songs.filter(s => s.bandId === bands.find(b => b.name === 'Paradise Row')?.id).map(s => {
+                    return {
+                        id: s.id
+                    }
+                })
             }
-        })
+        }
+    })
 
     return await prisma.setlist.findMany({
         include: {

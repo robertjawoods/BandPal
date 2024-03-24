@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import UserSearch from "../components/UserSearch";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { CreateChat } from "./CreateChat";
 // import { useRouter } from "next/navigation";
 
 export default function Chat() {
@@ -19,9 +20,6 @@ export default function Chat() {
     // }
 
     const [chats, setChats] = useState([]);
-    const [displayUserSearch, setDisplayUserSearch] = useState(false);
-
-    console.log(session.data?.user);
 
     useEffect(() => {
         if (!session.data?.user) {
@@ -36,44 +34,29 @@ export default function Chat() {
             // type this response
             const data = await response.json();
 
-            console.log(data);
-
             setChats(data);
         }
 
         getChats();
     }, [session]);
 
-    const createChatCallback = async (item: any) => {
-        fetch(`/api/chat/create`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ toUserId: item.objectID, fromUserId: session?.data?.user?.id }),
-        });
-
-        setDisplayUserSearch(false);
-    }
 
 
     return (
         <div>
             <h1>Chat</h1>
-
-            {displayUserSearch ? <UserSearch submitCallback={createChatCallback} /> 
-            : <Link href='#' className="rounded bg-blue-400" onClick={() => setDisplayUserSearch(true)}>Start a new chat</Link>}
+            
+            {session.data?.user && <CreateChat user={{ id: session.data.user.id ?? '', email: session.data.user.email ?? '' }} />}
 
             {chats.map((chat: any) => {
                 return <div key={chat.id}>
                     <Link href={`/chat/${chat.id}`}>
-                        {(chat.members as []).filter((m: any) => m.id !== session.data?.user?.id).map((member: any) => {
+                        {(chat.members as []).map((member: any) => {
                             return <div key={member.id}>{member.name}</div>
                         })}
                     </Link>
                 </div>
             })}
-        
         </div>
     );
 }

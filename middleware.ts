@@ -1,10 +1,10 @@
 import { auth } from "@/app/auth"
-export default auth((req) => {
-    console.log('middleware', req.nextUrl)
+import { NextResponse } from "next/server";
 
+export default auth((req) => {
     if (req.nextUrl.pathname.match("/((?!api|_next/static|_next/image|favicon.ico|^/).*)"))
     {
-        console.log('matched')
+        // console.log('matched')
         return;
     }
 
@@ -12,7 +12,7 @@ export default auth((req) => {
         const url = req.nextUrl.clone();
         url.pathname = "/api/auth/signin";
         console.log('redirecting to login')
-        return Response.redirect(url);
+        return NextResponse.redirect(url);
     }
 })
 

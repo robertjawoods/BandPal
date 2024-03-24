@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // uses connection pooling
   directUrl = env("DIRECT_DATABASE_URL") // uses direct connection
 }
 
@@ -84,8 +84,7 @@ model User {
   administrator Band[]    @relation("BandAdmin")
   bands         Band[]
   profile       Profile?
-  Chat          Chat?     @relation(fields: [chatId], references: [id])
-  chatId        String?
+  Chats         Chat[]
   Message       Message[]
 }
 
