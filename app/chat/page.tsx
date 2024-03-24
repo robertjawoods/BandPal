@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 // import { auth } from "../auth";
-import UserSearch from "../components/UserSearch";
+//import UserSearch from "../components/UserSearch";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { CreateChat } from "./CreateChat";
