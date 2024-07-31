@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function Biography({ bio }: { bio: string | null | undefined}) {
     const [isEditing, setIsEditing] = useState(false);
 
-    const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const submit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const newBio = formData.get('bio') as string;
