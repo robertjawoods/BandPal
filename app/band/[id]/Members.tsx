@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { RemoveIcon } from "./RemoveIcon";
 
-export default function Members({ members, bandId }: { members: User[], bandId: string }) {
+export default function Members({ members, bandId, isOwner }: { members: User[], bandId: string, isOwner: boolean }) {
     const router = useRouter();
 
     const removeMember = async (userId: string) => {
@@ -22,6 +22,13 @@ export default function Members({ members, bandId }: { members: User[], bandId: 
         }
     }
 
+    const removeButton = (m: User) => 
+    (
+        <button onClick={() => removeMember(m.id)} className="hover:bg-red-500 rounded-full -scale-75 align-middle">
+            <RemoveIcon />
+        </button>
+    );
+
     return (
         <div>
             {members.map(m => {
@@ -29,9 +36,7 @@ export default function Members({ members, bandId }: { members: User[], bandId: 
                     <Link href={`/user/${m.id}`}>
                         {m.name}
                     </Link>
-                    <button onClick={() => removeMember(m.id)} className="hover:bg-red-500 rounded-full -scale-75 align-middle">
-                        <RemoveIcon />
-                    </button>
+                    {isOwner ? removeButton(m) : <></>}
                 </div>
             })}
         </div>

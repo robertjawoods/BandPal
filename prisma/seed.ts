@@ -36,7 +36,7 @@ const createUsers = async (): Promise<User[]> => {
 const createBands = async (users: User[]) => {
     const createRandomBands = (): Partial<Band> => {
         return {
-            name: `${faker.word.preposition} ${faker.word.adjective()} ${faker.word.noun()}`,
+            name: `${faker.word.preposition()} ${faker.word.adjective()} ${faker.word.noun()}`,
             bio: faker.lorem.paragraph(),
             genre: faker.music.genre(),
             location: faker.location.city()
@@ -68,9 +68,9 @@ const createBands = async (users: User[]) => {
         data: bands as Band[]
     })
 
-    // let bands = await prisma.band.findMany({});
+    let res = await prisma.band.findMany({});
 
-    for (let band of bands) {
+    for (let band of res) {
         console.log(band);
 
         await prisma.band.update({

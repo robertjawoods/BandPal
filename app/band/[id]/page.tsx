@@ -12,12 +12,15 @@ export default async function Page({ params }: { params: { id: string } }) {
       id: params.id
     },
     include: {
-      members: true
+      members: true,
+      admin: true
     },
     cacheStrategy: {
       ttl: 60
     }
   });
+
+  const isOwner = band?.admin.id === session?.user?.id;
 
   if (!band) {
     return <div>Band not found</div>
@@ -26,7 +29,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const callback = async (item: AutocompleteItem) => {
     'use server'
   
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/add-member`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/add-member`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +52,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="py-5 ">
           <h2 className="text-lg font-semibold">Members</h2>
-          <Members members={band.members} bandId={params.id} />
+          <Members members={band.members} bandId={params.id} isOwner={isOwner}  />
         </div>
       </div>
     </div>
