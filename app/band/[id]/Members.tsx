@@ -24,7 +24,7 @@ export default function Members({ members, bandId, isOwner }: { members: User[],
 
     const removeButton = (m: User) => 
     (
-        <button onClick={() => removeMember(m.id)} className="hover:bg-red-500 rounded-full -scale-75 align-middle">
+        <button type="button" title="remove member" onClick={() => removeMember(m.id)} className="hover:bg-red-500 rounded-full -scale-75 align-middle">
             <RemoveIcon />
         </button>
     );

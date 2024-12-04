@@ -21,7 +21,7 @@ export default function Biography({ bio }: { bio: string | null | undefined}) {
 
     const editForm = (
         <form onSubmit={e => submit(e)}>
-            <textarea autoFocus>{bio}</textarea>
+            <textarea title='bio' autoFocus>{bio}</textarea>
             <button type="submit">Save</button>
         </form>
     );

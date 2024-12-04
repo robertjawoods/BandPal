@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import React from "react";
 import { SessionProvider } from "next-auth/react";
 import Navbar from "@/app/components/navigation/Navbar";
+import React from "react";
 
 // These styles apply to every route in the application
 import './globals.css'
@@ -23,7 +23,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionProvider>
-        <body className={inter.className}>
+        <body className={`${inter.className} m-0`}>
           <Navbar />
           {children}
         </body>

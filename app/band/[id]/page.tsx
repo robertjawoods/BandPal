@@ -15,9 +15,6 @@ export default async function Page({ params }: { params: { id: string } }) {
       members: true,
       admin: true
     },
-    cacheStrategy: {
-      ttl: 60
-    }
   });
 
   const isOwner = band?.admin.id === session?.user?.id;
@@ -57,5 +54,4 @@ export default async function Page({ params }: { params: { id: string } }) {
       </div>
     </div>
   </div>
-
 }

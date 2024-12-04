@@ -9,6 +9,7 @@ export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
+  debug: process.env.NODE_ENV === "development",
   providers: [Google({
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -17,6 +18,9 @@ export const {
   adapter: PrismaAdapter(prisma as PrismaClient),
   callbacks: {
     session: async ({ session, user }) => {
+      console.log("session", session)
+      console.log("user", user)
+
       if (session?.user) {
         session.user.id = user.id;
       }
@@ -32,6 +36,17 @@ export const {
       }
 
       try {
+        // check if user exists
+        const user = await prisma.user.findUnique({
+          where: {
+            id: message.user.id,
+          },
+        });
+
+        if (user) {
+          return;
+        }
+
         await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/webhooks/create/user`, {
           method: "POST",
           headers: {
