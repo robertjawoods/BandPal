@@ -1,13 +1,7 @@
 "use client"
 
 import { useUser } from "@/app/lib/hooks/useUser";
-
-// import { object, string } from 'yup';
-
-// let bandSchema = object({
-//     name: string().required(),
-
-import { submit } from "./createBand";
+import { createBand } from "./createBand";
 
 export default function CreateBandPage() {
 
@@ -18,7 +12,7 @@ export default function CreateBandPage() {
     }
 
     return <>
-        <form action={(formData) => submit(formData, user)}>
+        <form action={(formData) => createBand(formData, user)}>
             <label htmlFor="name">Band Name:</label>
             <input type="text" name="name" title="Name" />
             <input type="submit" value="Create" />

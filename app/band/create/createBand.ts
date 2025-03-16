@@ -1,10 +1,11 @@
+"use server"
+
 import { Band } from "@prisma/client";
 import { redirect } from "next/navigation";
 import prisma from "@/app/lib/prisma";
 import { User } from "@supabase/supabase-js";
 
-export const submit = async (formData: FormData, user: User | null) => {
-    "use server"
+export async function createBand(formData: FormData, user: User | null) {
     if (!user) {
         redirect('/')
     }

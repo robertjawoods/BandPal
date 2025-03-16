@@ -7,16 +7,18 @@ interface AccountProps {
   user: any;
 }
 
-export default async function Account({user}: AccountProps) {
+export default function Account({ user }: AccountProps) {
   const router = useRouter();
 
-  const handleSignOut = async () => {
-    const res = await fetch('/api/user/signout', {
+  const handleSignOut = () => {
+    fetch('/api/user/signout', {
       method: 'POST',
+    }).then(res => {
+      if (res.ok) {
+        router.refresh();
+      }
     });
-    if (res.ok) {
-      router.refresh();
-    }
+
   }
 
   const displayItems = () => {
