@@ -1,23 +1,34 @@
-'use client';
-
-// import { Session } from "next-auth";
-import { signIn, signOut, useSession, } from "next-auth/react";
-// import Image from "next/image";
+'use client'
+import { redirect } from "next/dist/server/api-utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export default function Account() {
-  const { data } = useSession();
+interface AccountProps {
+  user: any;
+}
+
+export default async function Account({user}: AccountProps) {
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    const res = await fetch('/api/user/signout', {
+      method: 'POST',
+    });
+    if (res.ok) {
+      router.refresh();
+    }
+  }
 
   const displayItems = () => {
-    if (!data) {
+    if (!user) {
       return (<>
-        <Link href="#" onClick={() => signIn()} className="py-5 px-3">Login</Link>
-        <Link href='#' onClick={() => signIn()} className="py-3 px-3 rounded bg-yellow-400 text-yellow-900">Sign Up</Link>
+        <Link href="/login" className="py-5 px-3">Login</Link>
+        <Link href="/login" className="py-3 px-3 rounded bg-yellow-400 text-yellow-900">Sign Up</Link>
       </>)
     }
     return (<>
-      <Link href="#" onClick={() => signOut()} className="py-3 px-3">Logout</Link>
-      <Link href={`/user/${data.user?.id || ''}`} className="py-3 px-3">Account</Link>
+      <Link href="#" onClick={() => handleSignOut()} className="py-3 px-3">Logout</Link>
+      <Link href={`/user/${user?.id || ''}`} className="py-3 px-3">Account</Link>
     </>)
   }
 
@@ -26,4 +37,4 @@ export default function Account() {
       {displayItems()}
     </div>
   );
-}
+} 

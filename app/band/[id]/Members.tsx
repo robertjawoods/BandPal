@@ -34,7 +34,7 @@ export default function Members({ members, bandId, isOwner }: { members: User[],
             {members.map(m => {
                 return <div key={m.id} className="flex justify-center gap-1 items-center">
                     <Link href={`/user/${m.id}`}>
-                        {m.name}
+                        {m.name ?? m.email}
                     </Link>
                     {isOwner ? removeButton(m) : <></>}
                 </div>

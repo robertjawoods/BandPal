@@ -22,6 +22,7 @@ model Band {
   members  User[]
   setlists Setlist[]
   songs    Song[]
+  lookingForMembers Boolean @default(false)
 
   @@unique([userId, name])
 }

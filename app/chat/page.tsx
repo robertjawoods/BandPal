@@ -6,10 +6,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { CreateChat } from "./CreateChat";
+import { createClient } from "../lib/supabase/client";
 // import { useRouter } from "next/navigation";
 
 export default function Chat() {
-    const session = useSession();
+    const supabase = createClient();
+    const session = supabase.auth.getUser();
+
 
     // const router = useRouter();
 
@@ -21,24 +24,22 @@ export default function Chat() {
 
     const [chats, setChats] = useState([]);
 
-    useEffect(() => {
-        if (!session.data?.user) {
-            return;
-        }
-
+    useEffect(() => {      
         async function getChats() {
-            const response = await fetch(`api/chat/all/${session?.data?.user?.id}/`, {
+            const {data, error} = await supabase.auth.getUser();
+
+            const response = await fetch(`api/chat/all/${data?.user?.id}/`, {
                 method: 'GET',
             });
 
             // type this response
-            const data = await response.json();
+            const responseData = await response.json();
 
-            setChats(data);
+            setChats(responseData);
         }
 
         getChats();
-    }, [session]);
+    }, []);
 
 
 
@@ -46,7 +47,7 @@ export default function Chat() {
         <div>
             <h1>Chat</h1>
             
-            {session.data?.user && <CreateChat user={{ id: session.data.user.id ?? '', email: session.data.user.email ?? '' }} />}
+            { data?.user && <CreateChat user={{ id: session.data.user.id ?? '', email: session.data.user.email ?? '' }} />}
 
             {chats.map((chat: any) => {
                 return <div key={chat.id}>
