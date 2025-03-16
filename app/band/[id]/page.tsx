@@ -3,8 +3,10 @@ import prisma from "@/app/lib/prisma";
 import UserSearch, { AutocompleteItem } from "@/app/components/UserSearch";
 import Members from "./Members";
 import { createClient } from "@/app/lib/supabase/server";
+import Link from "next/link";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const band = await prisma.band.findFirst({
     where: {
       id: params.id
@@ -54,7 +56,11 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div>
         <h2 className="text-2xl italic">{band.genre}</h2>
         <p>{band.bio}</p>
-        {isAdmin && <button className="bg-slate-700 text-white rounded py-2 px-4">Edit Band</button>}
+        {isAdmin && 
+          <Link href={`/band/edit/${band.id}`}>
+            <button className="bg-slate-700 text-white rounded py-2 px-4">Edit Band</button>
+          </Link>
+        }
       </div>
     </div>
   </div>

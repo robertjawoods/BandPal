@@ -6,7 +6,8 @@ interface AddMemberInput {
 }
 
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
+export async function POST(request: Request, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     const input = await request.json() as AddMemberInput;
 
     console.log(input, params.id)
@@ -31,5 +32,4 @@ export async function POST(request: Request, { params }: { params: { id: string 
 
         return Response.json({ error }, { status: 500 })
     }
-
 }

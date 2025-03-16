@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic' // defaults to auto
 import prisma from "@/app/lib/prisma"
 
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     if (!params.id) {
         return Response.error()
     }
