@@ -38,4 +38,4 @@ export async function editBand(formData: FormData) {
 
     if (band)
         redirect(`/band/${band.id}`);
-};
+}

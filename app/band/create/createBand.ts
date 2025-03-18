@@ -66,4 +66,4 @@ export async function createBand(formData: FormData, user: User | null) {
 
     if (band)
         redirect(`/band/${band.id}`);
-};
+}

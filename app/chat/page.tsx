@@ -30,7 +30,7 @@ export default async function Chat() {
         <div>
             <h1>Chat</h1>
 
-            {user && <CreateChat user={{ id: user.id ?? '', email: user.email ?? '' }} />}
+            {user && <CreateChat  />}
 
             {chats?.map((chat: any) => {
                 return <div key={chat.id}>

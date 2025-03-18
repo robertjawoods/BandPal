@@ -1,9 +1,7 @@
 
 import prisma from "@/app/lib/prisma";
-import UserSearch, { AutocompleteItem } from "@/app/components/UserSearch";
 import { createClient } from "@/app/lib/supabase/server";
 import { redirect } from "next/navigation";
-import Members from "../../[id]/Members";
 import { editBand } from "./editBand";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
@@ -28,17 +26,17 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
     const { data: { user } } = await supabase.auth.getUser();
 
-    const callback = async (item: AutocompleteItem) => {
-        'use server'
+    // const callback = async (item: AutocompleteItem) => {
+    //     'use server'
 
-        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/add-member`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userId: item.objectID }),
-        });
-    }
+    //     await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/add-member`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ userId: item.objectID }),
+    //     });
+    // }
 
     const isAdmin = user?.id === band.admin.id;
 

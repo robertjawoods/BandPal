@@ -3,7 +3,6 @@ import { createClient } from "@/app/lib/supabase/server";
 
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import CreateChat from "./CreateChat";
 
 export default async function User(props: { params: Promise<{ id: string }> }) {
@@ -21,7 +20,7 @@ export default async function User(props: { params: Promise<{ id: string }> }) {
 
     const { data: { user: currentUser } } = await supabase.auth.getUser();
 
-    const isMe = currentUser?.id === user?.id;
+   // const isMe = currentUser?.id === user?.id;
 
     return (
         <>

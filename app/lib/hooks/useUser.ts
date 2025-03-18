@@ -30,7 +30,7 @@ export function useUser() {
             }
         }
         fetchUser()
-    }, [])
+    }, [supabase.auth])
 
     return { loading, error, session, user }
 }

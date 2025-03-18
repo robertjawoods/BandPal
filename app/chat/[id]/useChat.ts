@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/app/lib/supabase/client";
-import { Prisma, Message, type Chat } from "@prisma/client";
+import { Message, type Chat } from "@prisma/client";
 
 type ChatWithMessages = Chat & {
   members: Array<{ id: string; name?: string | null; email: string }>;

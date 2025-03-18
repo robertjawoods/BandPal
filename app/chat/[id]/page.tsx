@@ -1,12 +1,11 @@
 'use client'
 
 import { useUser } from "@/app/lib/hooks/useUser";
-import { type Chat } from "@prisma/client";
 import { use } from "react";
 import { sendMessage } from "./sendMessage";
 import { useChat } from "./useChat";
 
-export default function Chat(props: { params: Promise<{ id: string }> }) {
+export default function ViewChat(props: { params: Promise<{ id: string }> }) {
     const params = use(props.params);
 
     const { user, error, loading } = useUser();
