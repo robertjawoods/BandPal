@@ -16,11 +16,10 @@ export default async function Bands() {
                 <h1 className="text-4xl font-bold">Bands</h1>
                 {user && <Link href="/band/create"><button className="bg-slate-700 text-white rounded py-2 px-4">Create Band</button></Link>}
                 {!user && <p className="text-lg">Login to create a band</p>}
-                {user && <Link href="/band/create"><button className="bg-slate-700 text-white rounded py-2 px-4">Join Band</button></Link>}
                 <ul className="justify-center flex flex-col w-80 mx-auto">
                     {bands.map((band) => (
                         <li key={band.id} className="hover:bg-slate-700 rounded">
-                            <Link href={`/band/${band.id}`}><h2 className="text-2xl py-2">{band.name}</h2></Link>
+                            <Link href={`/band/${band.id}`}><h2 className={`text-2xl py-2 ${band.lookingForMembers ? "text-blue-800" : ""}`}>{band.name}</h2></Link>
                         </li>
                     ))}
                 </ul>

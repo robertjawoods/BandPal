@@ -11,7 +11,7 @@ interface CreateChatProps {
 }
 
 export function CreateChat({ user }: CreateChatProps) {
-    const [displayUserSearch, setDisplayUserSearch] = useState(false);
+    //const [displayUserSearch, setDisplayUserSearch] = useState(false);
 
     const createChatCallback = async (item: any) => {
         console.log('chat', item.objectID, item.email, user?.id, user?.email)
@@ -24,14 +24,13 @@ export function CreateChat({ user }: CreateChatProps) {
             body: JSON.stringify({ toUserId: item.objectID, fromUserId: user?.id }),
         });
 
-        setDisplayUserSearch(false);
+       // setDisplayUserSearch(false);
     }
 
     return (
         <>
             {
-                displayUserSearch ? <UserSearch submitCallback={createChatCallback} />
-                    : <Link href='#' className="rounded bg-blue-400" onClick={() => setDisplayUserSearch(true)}>Start a new chat</Link>
+                <Link href='#' className="rounded bg-blue-400" >Start a new chat</Link>
             }
         </>
     )      

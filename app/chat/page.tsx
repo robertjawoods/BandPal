@@ -1,59 +1,42 @@
-'use client'
-
-import { useEffect, useState } from "react";
-// import { auth } from "../auth";
-//import UserSearch from "../components/UserSearch";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import { CreateChat } from "./CreateChat";
-import { createClient } from "../lib/supabase/client";
-// import { useRouter } from "next/navigation";
+import { getUser } from "../lib/supabase/server";
+import prisma from "@/app/lib/prisma";
 
-export default function Chat() {
-    const supabase = createClient();
-    const session = supabase.auth.getUser();
+export default async function Chat() {
+    const { user, error } = await getUser();
 
+    if (error) {
+        console.log(error);
 
-    // const router = useRouter();
+        return <div>Error</div>
+    }
 
-    // if (session.status === 'unauthenticated') {
-    //     console.log('redirecting to login')
-    //     // redirect to login
-    //     router.push('/api/auth/signin');
-    // }
-
-    const [chats, setChats] = useState([]);
-
-    useEffect(() => {      
-        async function getChats() {
-            const {data, error} = await supabase.auth.getUser();
-
-            const response = await fetch(`api/chat/all/${data?.user?.id}/`, {
-                method: 'GET',
-            });
-
-            // type this response
-            const responseData = await response.json();
-
-            setChats(responseData);
+    const chats = await prisma?.chat.findMany({
+        where: {
+            members: {
+                some: {
+                    id: user!.id
+                }
+            }
+        },
+        include: {
+            members: true
         }
-
-        getChats();
-    }, []);
-
+    });
 
 
     return (
         <div>
             <h1>Chat</h1>
-            
-            { data?.user && <CreateChat user={{ id: session.data.user.id ?? '', email: session.data.user.email ?? '' }} />}
 
-            {chats.map((chat: any) => {
+            {user && <CreateChat user={{ id: user.id ?? '', email: user.email ?? '' }} />}
+
+            {chats?.map((chat: any) => {
                 return <div key={chat.id}>
                     <Link href={`/chat/${chat.id}`}>
-                        {(chat.members as []).map((member: any) => {
-                            return <div key={member.id}>{member.name}</div>
+                        {(chat.members).filter((e: any) => e.email !== user?.email).map((member: any) => {
+                            return <div key={member.id}>{member.name ?? member.email}</div>
                         })}
                     </Link>
                 </div>

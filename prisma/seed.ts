@@ -55,12 +55,13 @@ const createBands = async (users: User[]) => {
         userId: users[0].id,
         bio: "Paradise Row is a London-based band, formed in 2015 by singer-songwriter and guitarist, James Collins. The band's music is a mix of indie rock, folk, and blues, with influences from jazz and world music",
         genre: "Indie",
-        location: "London"
+        location: "London",
+        lookingForMembers: true
     }, ...faker.helpers.multiple(createRandomBands, { count: 3 })]
-    
+
     for (let band of bands) {
         let i = 1;
-        
+
         band.userId = users[i++].id;
     }
 
@@ -70,6 +71,7 @@ const createBands = async (users: User[]) => {
 
     let res = await prisma.band.findMany({});
 
+    let i = 0;
     for (let band of res) {
         console.log(band);
 
@@ -79,15 +81,15 @@ const createBands = async (users: User[]) => {
             },
             data: {
                 members: {
-                    connect: users.map(u => {
+                    connect: users.slice(i, i + 3).map(u => {
                         return {
                             id: u.id
-                        }
+                        };
                     })
                 }
             }
         })
-
+        i += 3;
     }
 
     return await prisma.band.findMany();

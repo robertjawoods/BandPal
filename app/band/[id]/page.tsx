@@ -41,6 +41,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   const isAdmin = user?.id === band.admin.id;
 
+  const isMember = band.members.some(member => member.id === user?.id);
+
   return <div className="flex flex-col text-center py-4">
     <h1 className="text-3xl font-bold">{band.name}</h1>
     <div className="flex ">
@@ -59,6 +61,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         {isAdmin && 
           <Link href={`/band/edit/${band.id}`}>
             <button className="bg-slate-700 text-white rounded py-2 px-4">Edit Band</button>
+          </Link>
+        }
+        {!isMember &&
+          <Link href={`/band/${band.id}/join`}>
+            <button className="bg-slate-700 text-white rounded py-2 px-4">Apply</button>
           </Link>
         }
       </div>
