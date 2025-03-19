@@ -4,13 +4,13 @@ import { useSpotify } from "@/app/lib/hooks/useSpotify";
 import { useDebounce } from "@/app/lib/hooks/useDebounce";
 import { useEffect, useState, useRef } from "react";
 
-interface InfluencesProps {
-    influences: {
-        name: string;
-        id: string;
-        profileId: string | null;
-    }[] | undefined;
-}
+// interface InfluencesProps {
+//     influences: {
+//         name: string;
+//         id: string;
+//         profileId: string | null;
+//     }[] | undefined;
+// }
 
 interface ArtistData { 
     name: string;
@@ -19,13 +19,13 @@ interface ArtistData {
     image: any[];
 }
 
-export function Influences({ influences }: InfluencesProps) {
+export function Influences(/*{ influences }: InfluencesProps*/) {
     const { getArtist } = useSpotify();
 
     const [searchTerm, setSearchTerm] = useState("");
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const [suggestions, setSuggestions] = useState<ArtistData[]>([]);
-    const [loading, setLoading] = useState(false);
+   // const [loading, setLoading] = useState(false);
     const previousSearchTerm = useRef("");
 
     useEffect(() => {
@@ -33,7 +33,7 @@ export function Influences({ influences }: InfluencesProps) {
             return;
         }
 
-        setLoading(true);
+        //setLoading(true);
         getArtist(debouncedSearchTerm)
             .then(data => {
                 const suggestions = data.artists.items.map((artist: any) => {
@@ -47,18 +47,16 @@ export function Influences({ influences }: InfluencesProps) {
                 
                 setSuggestions(suggestions);
                 previousSearchTerm.current = debouncedSearchTerm;
-                setLoading(false);
+                //setLoading(false);
 
                 console.log('suggestions', suggestions);
             })
-            .catch(() => setLoading(false));
+            .catch(() => {})//setLoading(false));
     }, [debouncedSearchTerm, getArtist]);
 
     const handleSelect = (artist: ArtistData) => {
         setSearchTerm(artist.name);
         setSuggestions([]);
-
-        
       };
 
     return (

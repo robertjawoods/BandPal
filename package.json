@@ -24,7 +24,8 @@
     "docker": "docker compose up -d",
     "start:migrate:prod": "prisma migrate deploy && pnpm start",
     "index": "ts-node index-users.ts",
-    "postinstall": "prisma generate --no-engine"
+    "postinstall": "prisma generate --no-engine",
+    "prepare": "husky"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.18.1",
@@ -58,6 +59,7 @@
     "dotenv": "^16.4.7",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.1.0",
+    "husky": "^9.1.7",
     "postcss": "^8.5.3",
     "prisma": "^6.5.0",
     "tailwindcss": "^3.4.17",

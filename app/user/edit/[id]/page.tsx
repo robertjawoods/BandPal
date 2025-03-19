@@ -27,7 +27,7 @@ export default async function EditUser(props: { params: Promise<{ id: string }> 
             <h1>Edit User</h1>
 
             <div>
-                <Influences influences={user?.profile?.influences} />
+                <Influences />
             </div>
 
             <div>
