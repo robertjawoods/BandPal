@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/app/lib/supabase/server'
+import { da } from '@faker-js/faker'
 
 const getURL = () => {
   let url =
@@ -27,10 +28,7 @@ export async function login(formData: FormData) {
     password: formData.get('password') as string,
   }
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email: data.email,
-    password: data.password,
-  })
+  const { error } = await supabase.auth.signInWithPassword(data)
 
   console.log(error)
 
@@ -47,21 +45,18 @@ export async function signup(formData: FormData) {
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
-  const datas = {
+  const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   }
 
-  const { error, data } = await supabase.auth.signUp({
-    email: datas.email,
-    password: datas.password,
+  const { error } = await supabase.auth.signUp({
+    email: data.email,
+    password: data.password,
     options: {
       emailRedirectTo: getURL(),
     },
   })
-
-  console.log(data)
-  console.log(error)
 
   if (error) {
     redirect('/error')
