@@ -7,12 +7,12 @@ import { createClient } from '@/app/lib/supabase/server'
 
 const getURL = () => {
   let url =
-    process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
-    process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+    process?.env?.NEXT_PUBLIC_SITE_URL ??
+    process?.env?.NEXT_PUBLIC_VERCEL_URL ??
     'http://localhost:3000/'
-  // Make sure to include `https://` when not localhost.
+
   url = url.startsWith('http') ? url : `https://${url}`
-  // Make sure to include a trailing `/`.
+
   url = url.endsWith('/') ? url : `${url}/`
   return url
 }
@@ -20,8 +20,6 @@ const getURL = () => {
 export async function login(formData: FormData) {
   const supabase = await createClient()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -42,8 +40,6 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
   const supabase = await createClient()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,

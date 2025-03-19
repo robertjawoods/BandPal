@@ -3,7 +3,7 @@
 import { useUser } from "@/app/lib/hooks/useUser";
 import { use } from "react";
 import { sendMessage } from "./sendMessage";
-import { useChat } from "./useChat";
+import { useChat } from "@/app/lib/hooks/useChat";
 
 export default function ViewChat(props: { params: Promise<{ id: string }> }) {
     const params = use(props.params);

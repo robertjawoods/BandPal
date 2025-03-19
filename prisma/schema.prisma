@@ -71,7 +71,7 @@ model Profile {
 }
 
 model Influence {
-  id        String   @id @default(uuid())
+  id        String   @id 
   name      String
   Profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String?
