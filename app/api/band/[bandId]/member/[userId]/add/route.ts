@@ -6,6 +6,16 @@ interface AddMemberInput {
     bandId: string;
 }
 
+/**
+ * Handles a POST request to add a member to a band.
+ *
+ * This function awaits input parameters containing a user identifier and a band identifier to connect the user as a member of the band using a Prisma client.
+ * It returns a JSON response with an empty object and status 200 on success, or a JSON response with error details and status 500 on failure.
+ *
+ * @param request - The incoming HTTP request.
+ * @param props - An object with a promise that resolves to input data containing a `userId` and a `bandId` for the member addition.
+ * @returns A JSON response with status 200 on success or status 500 containing error details on failure.
+ */
 export async function POST(request: Request, props: { params: Promise<AddMemberInput> }) {
     const { userId, bandId } = await props.params;
 
