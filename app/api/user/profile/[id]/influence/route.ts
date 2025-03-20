@@ -23,8 +23,7 @@ export async function PUT(req: Request, props: { params: Promise<{ id: string }>
         where: {
             id: params.id,
         },
-        data: {
-            
+        data: {            
             profile: {
                 update: {
                     influences: {
@@ -36,6 +35,13 @@ export async function PUT(req: Request, props: { params: Promise<{ id: string }>
                 }
             },
         },
+        include: {
+            profile: {
+                include: {
+                    influences: true
+                }
+            }
+        }, 
     });
 
 

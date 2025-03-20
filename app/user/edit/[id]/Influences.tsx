@@ -4,13 +4,14 @@ import { useSpotify } from "@/app/lib/hooks/useSpotify";
 import { useDebounce } from "@/app/lib/hooks/useDebounce";
 import { useEffect, useState, useRef } from "react";
 
-// interface InfluencesProps {
-//     influences: {
-//         name: string;
-//         id: string;
-//         profileId: string | null;
-//     }[] | undefined;
-// }
+interface InfluencesProps {
+    influences: {
+        name: string;
+        id: string;
+        profileId: string | null;
+    }[] | undefined;
+    userId: string
+}
 
 interface ArtistData { 
     name: string;
@@ -19,8 +20,10 @@ interface ArtistData {
     image: any[];
 }
 
-export function Influences(/*{ influences }: InfluencesProps*/) {
+export function Influences({ influences, userId }: InfluencesProps) {
     const { getArtist } = useSpotify();
+
+    console.log('influences', influences);
 
     const [searchTerm, setSearchTerm] = useState("");
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -57,6 +60,18 @@ export function Influences(/*{ influences }: InfluencesProps*/) {
     const handleSelect = (artist: ArtistData) => {
         setSearchTerm(artist.name);
         setSuggestions([]);
+
+        fetch(`/api/user/profile/${userId}/influence`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({name: artist.name, id: artist.id})
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('response data', data);
+        })
       };
 
     return (
