@@ -3,24 +3,21 @@ import prisma from "@/app/lib/prisma";
 
 interface AddMemberInput {
     userId: string;
+    bandId: string;
 }
 
-
-export async function POST(request: Request, props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
-    const input = await request.json() as AddMemberInput;
-
-    console.log(input, params.id)
+export async function POST(request: Request, props: { params: Promise<AddMemberInput> }) {
+    const { userId, bandId } = await props.params;
 
     try {
         await prisma?.band.update({
             where: {
-                id: params.id,
+                id: bandId,
             },
             data: {
                 members: {
                     connect: {
-                        id: input.userId,
+                        id: userId
                     },
                 },
             },

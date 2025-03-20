@@ -28,12 +28,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   // const callback = async (item: AutocompleteItem) => {
   //   'use server'
 
-  //   await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/add-member`, {
+  //   await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/member/add/${user?.id}`, {
   //     method: 'POST',
   //     headers: {
   //       'Content-Type': 'application/json',
   //     },
-  //     body: JSON.stringify({ userId: item.objectID }),
   //   });
   // }
 

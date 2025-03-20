@@ -1,9 +1,6 @@
 export const dynamic = 'force-dynamic' // defaults to auto
 
-// import algoliasearch from "algoliasearch"
-// import { NextResponse } from "next/server"
 import prisma from "@/app/lib/prisma"
-
 
 export async function GET(request: Request, props: { params: Promise<{ id: string }> }) {
     const params = await props.params;

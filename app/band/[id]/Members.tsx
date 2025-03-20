@@ -9,12 +9,11 @@ export default function Members({ members, bandId, isOwner }: { members: User[],
     const router = useRouter();
 
     const removeMember = async (userId: string) => {
-        const response = await fetch(`/api/band/${bandId}/remove-member`, {
+        const response = await fetch(`/api/band/${bandId}/member/remove/${userId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userId }),
+            }
         });
 
         if (response.ok) {
