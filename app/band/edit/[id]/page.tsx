@@ -1,9 +1,18 @@
-
 import prisma from "@/app/lib/prisma";
 import { createClient } from "@/app/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { editBand } from "./editBand";
 
+/**
+ * Renders a page for editing a band's details.
+ *
+ * This async component retrieves the band using its id (provided via a promise in the props) and
+ * verifies that the current authenticated user is the band's admin. If the band is not found,
+ * it displays a "Band not found" message; if the user is not the admin, it redirects to the home page.
+ * Otherwise, it renders a form pre-filled with the band's details for editing.
+ *
+ * @param props - An object containing a promise that resolves to an object with the band's id.
+ */
 export default async function Page(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     const band = await prisma.band.findFirst({
@@ -29,7 +38,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     // const callback = async (item: AutocompleteItem) => {
     //     'use server'
 
-    //     await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/add-member`, {
+    //     await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/member/add/${user?.id}`, {
     //         method: 'POST',
     //         headers: {
     //             'Content-Type': 'application/json',

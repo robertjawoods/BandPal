@@ -3,6 +3,17 @@ import Members from "./Members";
 import { createClient } from "@/app/lib/supabase/server";
 import Link from "next/link";
 
+/**
+ * Renders a band's profile page.
+ *
+ * This asynchronous React component retrieves band details using the provided band id from route parameters,
+ * including associated members and admin data. It then obtains the authenticated user from a Supabase client,
+ * determines if the user is an admin or a member of the band, and conditionally displays controls such as an
+ * "Edit Band" button for admins or an "Apply" button for non-members.
+ *
+ * @param props - Component props containing a promise that resolves to an object with the band id.
+ * @returns The JSX markup for the band profile page, or a "Band not found" message if the band does not exist.
+ */
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const band = await prisma.band.findFirst({
@@ -28,12 +39,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   // const callback = async (item: AutocompleteItem) => {
   //   'use server'
 
-  //   await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/add-member`, {
+  //   await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/band/${band.id}/member/add/${user?.id}`, {
   //     method: 'POST',
   //     headers: {
   //       'Content-Type': 'application/json',
   //     },
-  //     body: JSON.stringify({ userId: item.objectID }),
   //   });
   // }
 
