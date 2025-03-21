@@ -35,6 +35,9 @@ export async function updateUser(formData: FormData) {
 
     if (!response.ok) {
         console.error('Network response was not ok', response.statusText);
+
+        const errorData = await response.json();
+        throw new Error(`Failed to update user: ${errorData.message || response.statusText}`);
     }
 
     redirect(`/user/${userId}`);

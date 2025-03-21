@@ -40,14 +40,14 @@ export default async function EditUser(props: { params: Promise<{ id: string }> 
                     <label htmlFor="role">Role</label>
                     <input type="text" name="role" placeholder="Enter your role" defaultValue={user?.profile?.role ?? ""} />
                     <label htmlFor="image">Image</label>
-                    <input title="image" type="file" name="image" />
+                    <input title="image" type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
                     <input type="hidden" name="userId" value={userId} />
                     <label htmlFor="allowMessages">Allow messages</label>
-                    <input title="allow messages" type="checkbox" name="allowMessages" defaultChecked={user?.profile?.allowMessages} />
+                    <input type="checkbox" name="allowMessages" defaultChecked={user?.profile?.allowMessages} />
                     <label htmlFor="lookingForBand">Looking for band</label>
-                    <input title="looking for band" type="checkbox" name="lookingForBand" defaultChecked={user?.profile?.lookingForBand} />
+                    <input type="checkbox" name="lookingForBand" defaultChecked={user?.profile?.lookingForBand} />
                     <label htmlFor="isPublic">Public profile</label>
-                    <input title="is public" type="checkbox" name="isPublic" defaultChecked={user?.profile?.isPublic} />
+                    <input type="checkbox" name="isPublic" defaultChecked={user?.profile?.isPublic} />
                     <button className="bg-slate-700 text-white rounded py-2 px-4">Save</button>
                 </form>
             </div>
