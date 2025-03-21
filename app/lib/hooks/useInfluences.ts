@@ -18,7 +18,7 @@ type UseInfluencesReturn = {
   // eslint-disable-next-line no-unused-vars
   newSearch: (query: string) => void;
   // eslint-disable-next-line no-unused-vars
-  select: (artist: ArtistData) => void;
+  set: (artist: ArtistData) => void;
   searchTerm: string;
 };
 
