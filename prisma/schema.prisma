@@ -12,17 +12,17 @@ datasource db {
 }
 
 model Band {
-  id       String    @id @default(uuid())
-  name     String
-  admin    User      @relation("BandAdmin", fields: [userId], references: [id])
-  userId   String
-  bio      String?
-  location String?
-  genre    String?
-  members  User[]
-  setlists Setlist[]
-  songs    Song[]
-  lookingForMembers Boolean @default(false)
+  id                String    @id @default(uuid())
+  name              String
+  admin             User      @relation("BandAdmin", fields: [userId], references: [id])
+  userId            String
+  bio               String?
+  location          String?
+  genre             String?
+  members           User[]
+  setlists          Setlist[]
+  songs             Song[]
+  lookingForMembers Boolean   @default(false)
 
   @@unique([userId, name])
 }
@@ -52,7 +52,6 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
   administrator Band[]    @relation("BandAdmin")
   bands         Band[]
   profile       Profile?
@@ -61,17 +60,22 @@ model User {
 }
 
 model Profile {
-  id         String      @id @default(uuid())
-  userId     String      @unique
-  bio        String?
-  location   String?
-  joined     DateTime
-  influences Influence[]
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String      @id @default(uuid())
+  userId         String      @unique
+  bio            String?
+  location       String?
+  joined         DateTime
+  influences     Influence[]
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isPublic       Boolean     @default(true)
+  lookingForBand Boolean     @default(false)
+  allowMessages  Boolean     @default(true)
+  image          String?
+  role           String?     
 }
 
 model Influence {
-  id        String   @id 
+  id        String   @id
   name      String
   Profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String?
