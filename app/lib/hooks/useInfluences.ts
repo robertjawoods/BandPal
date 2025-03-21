@@ -55,7 +55,7 @@ export const useInfluences = ({
     }
   };
 
-  const select = (artist: ArtistData) => {
+  const set = (artist: ArtistData) => {
     setSearchTerm(artist.name);
     setSuggestions([]);
 

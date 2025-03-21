@@ -1,19 +1,19 @@
 "use client";
+
 import { useInfluences } from "@/app/lib/hooks/useInfluences";
 
 interface InfluencesProps {
-  influences:
-    | {
-        name: string;
-        id: string;
-        profileId: string | null;
-      }[]
-    | undefined;
+  influences: {
+    name: string;
+    id: string;
+    profileId: string | null;
+  }[]
+  | undefined;
   userId: string;
 }
 
 export function Influences({ influences, userId }: InfluencesProps) {
-  const { suggestions, newSearch, select, searchTerm } = useInfluences({
+  const { suggestions, newSearch, set, searchTerm } = useInfluences({
     userID: userId,
   });
   return (
@@ -33,12 +33,13 @@ export function Influences({ influences, userId }: InfluencesProps) {
         onChange={(e) => newSearch(e.target.value)}
         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
       />
+
       {suggestions.length > 0 && (
         <ul className="absolute z-10 w-full bg-white shadow-lg border border-gray-300 rounded-md mt-1 max-h-60 overflow-auto">
           {suggestions.map((artist) => (
             <li
               key={artist.id}
-              onClick={() => select(artist)}
+              onClick={() => set(artist)}
               className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
             >
               {artist.name}
@@ -46,6 +47,15 @@ export function Influences({ influences, userId }: InfluencesProps) {
           ))}
         </ul>
       )}
+
+      <div>
+        <h2>Influences</h2>
+        <ul>
+          {influences?.map((influence) => (
+            <li key={influence.id}>{influence.name}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
