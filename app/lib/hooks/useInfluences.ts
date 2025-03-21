@@ -72,5 +72,5 @@ export const useInfluences = ({
       });
   };
 
-  return { suggestions, newSearch, select, searchTerm };
+  return { suggestions, newSearch, set, searchTerm };
 };
