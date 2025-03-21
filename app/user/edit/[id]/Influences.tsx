@@ -13,7 +13,6 @@ interface InfluencesProps {
 }
 
 export function Influences({ influences, userId }: InfluencesProps) {
-  console.log("influences", influences);
   const { suggestions, newSearch, select, searchTerm } = useInfluences({
     userID: userId,
   });
