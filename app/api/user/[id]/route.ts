@@ -34,16 +34,13 @@ export async function PATCH(request: Request, props: { params: Promise<{ id: str
         data: await request.json(),
     };
 
-
     try {
         const updated = await prisma?.user.update(data)
 
-        console.log(updated)
-
-        return Response.json({}, { status: 200 })
+        return Response.json(updated, { status: 200 })
     } catch (error) {
         console.error(`An error occurred while updating user:`, error)
 
-        return Response.json({ error }, { status: 500 })
+        return Response.json({ message: "Failed to update user" }, { status: 500 })
     }
 }
