@@ -7,8 +7,6 @@ import { Influences } from "./Influences";
 export default async function EditUser(props: { params: Promise<{ id: string }> }) {
     const { id: userId } = await props.params;
 
-    console.log('userId', userId);
-
     const user = await prisma.user.findUnique({
         where: {
             id: userId
@@ -23,22 +21,34 @@ export default async function EditUser(props: { params: Promise<{ id: string }> 
     });
 
     return (
-        <div>
+        <div className="flex flex-col gap-5">
             <h1>Edit User</h1>
 
             <div>
+                <h2>Influences</h2>
                 <Influences userId={userId} influences={user?.profile?.influences} />
             </div>
 
             <div>
-                <form action={updateUser}>
+                <form action={updateUser} className="flex flex-col gap-3">
                     <label htmlFor="name">Name</label>
                     <input type="text" name="name" placeholder="Enter your name" defaultValue={user?.name ?? ""} />
                     <label htmlFor="bio">Bio</label>
                     <textarea name="bio" placeholder="Enter your bio" defaultValue={user?.profile?.bio ?? ""} />
                     <label htmlFor="location">Location</label>
                     <input type="text" name="location" placeholder="Enter your location" defaultValue={user?.profile?.location ?? ""} />
-                    <button>Save</button>
+                    <label htmlFor="role">Role</label>
+                    <input type="text" name="role" placeholder="Enter your role" defaultValue={user?.profile?.role ?? ""} />
+                    <label htmlFor="image">Image</label>
+                    <input title="image" type="file" name="image" />
+                    <input type="hidden" name="userId" value={userId} />
+                    <label htmlFor="allowMessages">Allow messages</label>
+                    <input title="allow messages" type="checkbox" name="allowMessages" defaultChecked={user?.profile?.allowMessages} />
+                    <label htmlFor="lookingForBand">Looking for band</label>
+                    <input title="looking for band" type="checkbox" name="lookingForBand" defaultChecked={user?.profile?.lookingForBand} />
+                    <label htmlFor="isPublic">Public profile</label>
+                    <input title="is public" type="checkbox" name="isPublic" defaultChecked={user?.profile?.isPublic} />
+                    <button className="bg-slate-700 text-white rounded py-2 px-4">Save</button>
                 </form>
             </div>
         </div>
