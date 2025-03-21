@@ -29,10 +29,6 @@ export async function login(formData: FormData) {
 
   console.log(error)
 
-  if (error) {
-    redirect('/error')
-  }
-
   revalidatePath('/', 'layout')
   redirect('/')
 }
