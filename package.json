@@ -17,15 +17,17 @@
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "format": "prisma format",
-    "generate": "prisma generate",
+    "generate": "prisma generate --no-hints",
     "prebuild": "bun run generate",
     "predev": "bun run generate",
     "studio": "prisma studio",
     "docker": "docker compose up -d",
     "start:migrate:prod": "prisma migrate deploy && pnpm start",
     "index": "ts-node index-users.ts",
-    "postinstall": "prisma generate --no-engine",
-    "prepare": "husky"
+    "postinstall": "prisma generate --no-engine --no-hints",
+    "prepare": "husky", 
+    "supabase:start": "supabase start -x vector", 
+    "supabase:stop": "supabase stop --no-backup"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.18.1",
@@ -39,6 +41,7 @@
     "next": "15.2.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "supabase": "2.19.8",
     "tsx": "^4.19.3",
     "yup": "^1.6.1"
   },
