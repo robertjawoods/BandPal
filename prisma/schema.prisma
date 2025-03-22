@@ -52,7 +52,6 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
   administrator Band[]    @relation("BandAdmin")
   bands         Band[]
   profile       Profile?
@@ -69,6 +68,11 @@ model Profile {
   influences Influence[]
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   role       Role[]
+  isPublic       Boolean     @default(true)
+  lookingForBand Boolean     @default(false)
+  allowMessages  Boolean     @default(true)
+  image          String?
+
 }
 
 model Influence {
