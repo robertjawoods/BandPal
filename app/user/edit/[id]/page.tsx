@@ -2,8 +2,8 @@
 
 import prisma from "@/app/lib/prisma";
 import { updateUser } from "./updateUser";
-import { Influences } from "../../../components/user/Influences";
-import { RoleSelector } from "../../../components/user/RoleSelector";
+import { Influences } from "@/app/components/user/Influences";
+import { RoleSelector } from "@/app/components/user/RoleSelector";
 
 export default async function EditUser(props: { params: Promise<{ id: string }> }) {
     const { id: userId } = await props.params;
