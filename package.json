@@ -26,7 +26,8 @@
     "index": "ts-node index-users.ts",
     "postinstall": "prisma generate --no-engine",
     "prepare": "husky", 
-    "supabase:start": "supabase start -x vector"
+    "supabase:start": "supabase start -x vector", 
+    "supabase:stop": "supabase stop --no-backup"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.18.1",
