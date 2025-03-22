@@ -16,12 +16,13 @@
 5. Replace .env values with the results of the command
 
 ```plaintext
-DIRECT_DATABASE_URL=DB URL
-DATABASE_URL=DB URL
+DIRECT_DATABASE_URL="postgresql://prisma:prisma@127.0.0.1:54322/postgres"
+DATABASE_URL="postgresql://prisma:prisma@127.0.0.1:54322/postgres?pgbouncer=true&connection_limit=1"
 SUPABASE_API_KEY=API KEY
-NEXT_PUBLIC_SUPABASE_URL=API URL
+NEXT_PUBLIC_SUPABASE_URL="http://127.0.0.1:54321"
 NEXT_PUBLIC_SUPABASE_ANON_KEY=anon key
 ```
+NOTE: The user name and password of the local prisma db account is prisma:prisma
 
 6. Run `bun db:reset`
 7. Open the table editor, go to the public.Message table and enable realtime in the top right
