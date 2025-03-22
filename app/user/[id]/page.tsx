@@ -13,6 +13,11 @@ export default async function User(props: { params: Promise<{ id: string }> }) {
         },
         include: {
             bands: true,
+            profile: {
+                include: {
+                    influences: true,
+                },
+            }
         }
     });
 
@@ -20,15 +25,37 @@ export default async function User(props: { params: Promise<{ id: string }> }) {
 
     const { data: { user: currentUser } } = await supabase.auth.getUser();
 
-   // const isMe = currentUser?.id === user?.id;
+    const isMe = currentUser?.id === user?.id;
 
     return (
         <>
             <h1>{user?.name}</h1>
             <Link href={`/user/edit/${user?.id}`}>Edit</Link>
-            {user?.image && <Image src={user?.image} alt={user?.name ?? ''} width={200} height={200} className="rounded-full" />}
+            {user?.profile?.image && <Image src={user?.profile?.image} alt={user?.name ?? ''} width={200} height={200} className="rounded-full" />}
 
-            <CreateChat currentUserId={currentUser?.id ?? ""} userId={user?.id ?? ""} />
+            {!isMe && user?.profile?.allowMessages && <CreateChat currentUserId={currentUser?.id ?? ""} userId={user?.id ?? ""} />}
+
+            <h2>Bio</h2>
+            <p>{user?.profile?.bio}</p>
+
+            <h2>Influences</h2>
+            {user?.profile?.influences && user.profile.influences.length > 0
+                ? <ul>
+                    {user?.profile?.influences?.map(influence => (
+                        <li key={influence.id}>{influence.name}</li>
+                    ))}
+                </ul>
+                : <p>No influences listed</p>
+            }
+
+            {
+                user?.profile?.role && (
+                    <>
+                        <h2>Role</h2>
+                        <p>{user?.profile?.role}</p>
+                    </>
+                )
+            }
 
             <h2>Bands</h2>
             <ul>

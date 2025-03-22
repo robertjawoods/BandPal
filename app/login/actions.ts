@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 
 import { createClient } from '@/app/lib/supabase/server'
 
-const getURL = () => {
+export const getURL = async () => {
   let url =
     process?.env?.NEXT_PUBLIC_SITE_URL ??
     process?.env?.NEXT_PUBLIC_VERCEL_URL ??
@@ -47,7 +47,7 @@ export async function signup(formData: FormData) {
     email: data.email,
     password: data.password,
     options: {
-      emailRedirectTo: getURL(),
+      emailRedirectTo: await getURL(),
     },
   })
 
