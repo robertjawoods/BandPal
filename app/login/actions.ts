@@ -67,7 +67,7 @@ export async function signup(formData: FormData) {
   })
 
   if (error) {
-    redirect(`/error?message=${parseAuthError}`, RedirectType.push)
+    redirect(`/error?message=${parseAuthError(error)}`, RedirectType.push)
   }
   revalidatePath('/', 'layout')
   redirect('/')
