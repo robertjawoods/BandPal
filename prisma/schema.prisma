@@ -60,18 +60,19 @@ model User {
 }
 
 model Profile {
-  id             String      @id @default(uuid())
-  userId         String      @unique
-  bio            String?
-  location       String?
-  joined         DateTime
-  influences     Influence[]
-  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String      @id @default(uuid())
+  userId     String      @unique
+  bio        String?
+  location   String?
+  joined     DateTime
+  influences Influence[]
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       Role[]
   isPublic       Boolean     @default(true)
   lookingForBand Boolean     @default(false)
   allowMessages  Boolean     @default(true)
   image          String?
-  role           String?     
+
 }
 
 model Influence {
@@ -97,4 +98,10 @@ model Message {
   createdAt DateTime @default(now())
 
   @@unique([chatId, id])
+}
+
+model Role {
+  id        String   @id @default(uuid())
+  name      String
+  Profile   Profile[]
 }
