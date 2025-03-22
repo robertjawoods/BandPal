@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic' // defaults to auto
 
 import prisma from "@/app/lib/prisma"
-import { createClient } from "@/app/lib/supabase/server";
+//import { createClient } from "@/app/lib/supabase/server";
 import { Prisma } from "@prisma/client";
 
 export async function GET(_: Request, props: { params: Promise<{ id: string }> }) {
@@ -28,13 +28,15 @@ export async function GET(_: Request, props: { params: Promise<{ id: string }> }
 export async function PATCH(request: Request, props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
 
-    const supabase = await createClient();
+    // const supabase = await createClient();
 
-    const { data: session } = await supabase.auth.getUser();
+    // const { data: session } = await supabase.auth.getUser();
 
-    if (!session || (session.user?.id !== params.id)) {
-        return Response.json({ message: "Unauthorized" }, { status: 403 });
-    }
+    // console.log(session)
+
+    // if (!session || (session.user?.id !== params.id)) {
+    //     return Response.json({ message: "Unauthorized" }, { status: 403 });
+    // }
 
     const data: Prisma.UserUpdateArgs = {
         where: {
