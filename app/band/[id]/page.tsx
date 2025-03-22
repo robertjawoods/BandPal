@@ -1,5 +1,5 @@
 import prisma from "@/app/lib/prisma";
-import Members from "./Members";
+import Members from "../../components/band/Members";
 import { createClient } from "@/app/lib/supabase/server";
 import Link from "next/link";
 

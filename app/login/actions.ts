@@ -1,9 +1,9 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-
+import { redirect, RedirectType } from 'next/navigation'
 import { createClient } from '@/app/lib/supabase/server'
+import { AuthError } from '@supabase/supabase-js';
 
 export const getURL = async () => {
   let url =
@@ -17,6 +17,18 @@ export const getURL = async () => {
   return url
 }
 
+const parseAuthError = (error: AuthError): string => {
+  console.error(error)
+
+  switch (error.message) {
+    case 'INVALID_PASSWORD':
+      return 'Invalid password'
+    case 'USER_NOT_FOUND':
+      return 'User not found'
+    default:
+      return 'An error occurred'
+  }
+}
 export async function login(formData: FormData) {
   const supabase = await createClient()
 
@@ -27,7 +39,10 @@ export async function login(formData: FormData) {
 
   const { error } = await supabase.auth.signInWithPassword(data)
 
-  console.log(error)
+  if (error) {
+    console.error(error)
+    redirect(`/error?message=${parseAuthError(error)}`, RedirectType.push)
+  }
 
   revalidatePath('/', 'layout')
   redirect('/')
@@ -52,8 +67,7 @@ export async function signup(formData: FormData) {
   })
 
   if (error) {
-    console.log(error)
-    redirect('/error')
+    redirect(`/error?message=${parseAuthError}`, RedirectType.push)
   }
   revalidatePath('/', 'layout')
   redirect('/')

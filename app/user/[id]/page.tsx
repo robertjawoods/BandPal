@@ -3,7 +3,7 @@ import { createClient } from "@/app/lib/supabase/server";
 
 import Image from "next/image";
 import Link from "next/link";
-import CreateChat from "./CreateChat";
+import CreateChat from "../../components/chat/CreateChat";
 
 export default async function User(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
