@@ -12,17 +12,17 @@ datasource db {
 }
 
 model Band {
-  id       String    @id @default(uuid())
-  name     String
-  admin    User      @relation("BandAdmin", fields: [userId], references: [id])
-  userId   String
-  bio      String?
-  location String?
-  genre    String?
-  members  User[]
-  setlists Setlist[]
-  songs    Song[]
-  lookingForMembers Boolean @default(false)
+  id                String    @id @default(uuid())
+  name              String
+  admin             User      @relation("BandAdmin", fields: [userId], references: [id])
+  userId            String
+  bio               String?
+  location          String?
+  genre             String?
+  members           User[]
+  setlists          Setlist[]
+  songs             Song[]
+  lookingForMembers Boolean   @default(false)
 
   @@unique([userId, name])
 }
@@ -68,10 +68,11 @@ model Profile {
   joined     DateTime
   influences Influence[]
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       Role[]
 }
 
 model Influence {
-  id        String   @id 
+  id        String   @id
   name      String
   Profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String?
@@ -93,4 +94,10 @@ model Message {
   createdAt DateTime @default(now())
 
   @@unique([chatId, id])
+}
+
+model Role {
+  id        String   @id @default(uuid())
+  name      String
+  Profile   Profile[]
 }
