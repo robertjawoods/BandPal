@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation' 
 
-export default async function ErrorPage() {
+export default function ErrorPage() {
     const searchParams = useSearchParams()
     const message = searchParams.get('message')
 
