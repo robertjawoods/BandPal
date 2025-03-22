@@ -16,6 +16,7 @@ export default async function User(props: { params: Promise<{ id: string }> }) {
             profile: {
                 include: {
                     influences: true,
+                    role: true
                 },
             }
         }
@@ -52,7 +53,9 @@ export default async function User(props: { params: Promise<{ id: string }> }) {
                 user?.profile?.role && (
                     <>
                         <h2>Role</h2>
-                        <p>{user?.profile?.role}</p>
+                        <p>{user?.profile?.role.map(r => {
+                            return r.name;
+                        })}</p>
                     </>
                 )
             }

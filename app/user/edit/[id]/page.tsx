@@ -3,6 +3,7 @@
 import prisma from "@/app/lib/prisma";
 import { updateUser } from "./updateUser";
 import { Influences } from "./Influences";
+import { RoleSelector } from "./RoleSelector";
 
 export default async function EditUser(props: { params: Promise<{ id: string }> }) {
     const { id: userId } = await props.params;
@@ -14,11 +15,14 @@ export default async function EditUser(props: { params: Promise<{ id: string }> 
         include: {
             profile: {
                 include: {
-                    influences: true
+                    influences: true,
+                    role: true
                 }
             }
         }
     });
+
+    const availableRoles = await prisma.role.findMany();
 
     return (
         <div className="flex flex-col gap-5">
@@ -38,7 +42,7 @@ export default async function EditUser(props: { params: Promise<{ id: string }> 
                     <label htmlFor="location">Location</label>
                     <input type="text" name="location" placeholder="Enter your location" defaultValue={user?.profile?.location ?? ""} />
                     <label htmlFor="role">Role</label>
-                    <input type="text" name="role" placeholder="Enter your role" defaultValue={user?.profile?.role ?? ""} />
+                    <RoleSelector availableRoles={availableRoles} initialRoles={user?.profile?.role} />
                     <label htmlFor="image">Image</label>
                     <input title="image" type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
                     <input type="hidden" name="userId" value={userId} />
