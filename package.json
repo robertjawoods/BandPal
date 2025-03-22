@@ -25,7 +25,8 @@
     "start:migrate:prod": "prisma migrate deploy && pnpm start",
     "index": "ts-node index-users.ts",
     "postinstall": "prisma generate --no-engine",
-    "prepare": "husky"
+    "prepare": "husky", 
+    "supabase:start": "supabase start -x vector"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.18.1",
@@ -39,6 +40,7 @@
     "next": "15.2.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "supabase": "2.19.8",
     "tsx": "^4.19.3",
     "yup": "^1.6.1"
   },

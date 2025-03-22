@@ -1,30 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bandpal
 
-## Getting Started
+## Local Environment Setup
 
-First, run the development server:
+### Requirements
 
-```bash
-bun dev
+* Bun
+* Docker Desktop
+
+---
+
+1. Install Bun
+2. Install Docker Desktop
+3. Run `bun install` in the root directory to install dependencies
+4. Run `bun supabase:start` and wait for the command to finish and display environment variable values.
+5. Replace .env values with the results of the command
+
+```plaintext
+DIRECT_DATABASE_URL=DB URL
+DATABASE_URL=DB URL
+SUPABASE_API_KEY=API KEY
+NEXT_PUBLIC_SUPABASE_URL=API URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY=anon key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Run `bun db:reset`
+7. Open the supabase studio page at <http://127.0.0.1:54323>
+8. Click on `SQL Editor` and run a new snippet with the contents
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sql
+CREATE OR REPLACE FUNCTION public.create_new_user()
+RETURNS TRIGGER AS $$
+    BEGIN
+    INSERT INTO public."User" (id, name, email)
+    VALUES (
+        NEW.id,
+        NEW.raw_user_meta_data->>'full_name',
+        NEW.email
+    );
+    INSERT INTO public."Profile" (id, "userId", joined)
+    VALUES (
+        gen_random_uuid(), 
+        new.id, 
+        current_date
+    );
+    RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.create_new_user();
+```
 
-## Learn More
+9. Open the table editor, go to the public.Message table and enable realtime in the top right
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Eventually the plan is to automate step 9 within the migration step.
