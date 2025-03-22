@@ -1,28 +1,7 @@
 import { Band, Prisma, PrismaClient, Song, User } from "@prisma/client";
-import { fa, faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
-
-const t: Prisma.ProfileCreateManyArgs = {
-    data: [{
-        bio: "Admin",
-        userId: "1",
-        joined: new Date(),
-    },
-    {
-        bio: "User",
-        userId: "2",
-        joined: new Date(),
-    }]
-}
-
-const user: Prisma.UserCreateManyArgs = {
-    data: {
-        email: "",
-        name: "Admin",
-        
-    }
-}
 
 const createUsers = async (): Promise<User[]> => {
     const createRandomUser = () => {
