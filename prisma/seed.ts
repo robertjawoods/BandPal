@@ -1,36 +1,72 @@
-import { Band, PrismaClient, Song, User } from "@prisma/client";
-import { faker } from '@faker-js/faker';
+import { Band, Prisma, PrismaClient, Song, User } from "@prisma/client";
+import { fa, faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
+
+const t: Prisma.ProfileCreateManyArgs = {
+    data: [{
+        bio: "Admin",
+        userId: "1",
+        joined: new Date(),
+    },
+    {
+        bio: "User",
+        userId: "2",
+        joined: new Date(),
+    }]
+}
+
+const user: Prisma.UserCreateManyArgs = {
+    data: {
+        email: "",
+        name: "Admin",
+        
+    }
+}
 
 const createUsers = async (): Promise<User[]> => {
     const createRandomUser = () => {
         return {
             email: faker.internet.email(),
-            name: faker.person.fullName()
+            name: `${faker.person.firstName()} ${faker.person.lastName()}`
         }
     }
 
-    const users = [
-        {
+    const users: Prisma.UserCreateManyArgs = {
+        data: [{
             email: "admin@gmail.com",
             name: "Admin"
         },
         {
             email: "user@gmail.com",
             name: "User"
-        }
-    ]
+        }, 
+        ...faker.helpers.multiple(createRandomUser, {
+            count: 10
+        })]
+    }
 
-    users.push(...faker.helpers.multiple(createRandomUser, {
-        count: 10
-    }))
-
-    const _ = await prisma.user.createMany({
-        data: users
-    });
+ 
+    const _ = await prisma.user.createMany(users);
 
     return await prisma.user.findMany();
+}
+
+const createProfiles = async (users: User[]) => {
+    const profiles: Prisma.ProfileCreateManyArgs = {
+        data: users.map(u => {
+            return {
+                bio: faker.lorem.paragraph(),
+                userId: u.id,
+                joined: faker.date.recent(),
+                location: faker.location.city(),
+            }
+        })
+    }
+
+    await prisma.profile.createMany(profiles)
+
+    return await prisma.profile.findMany();
 }
 
 const createBands = async (users: User[]) => {
@@ -113,7 +149,6 @@ const createSongs = async (bands: Band[]) => {
             {
                 name: "Fire from Frozen Cloud",
                 lengthSeconds: 300,
-
                 bandId: fiveTheHierophant!.id
             },
             {
@@ -191,23 +226,25 @@ const createSetlists = async (songs: Song[], bands: Band[]) => {
 const load = async () => {
     try {
         const users = await createUsers();
-        console.log(users);
+        console.log('users', users);
+
+        const profiles = await createProfiles(users);
+        console.log('profiles', profiles);
 
         const bands = await createBands(users);
-        console.log(bands);
+        console.log('bands', bands);
 
         const songs = await createSongs(bands);
-        console.log(songs);
+        console.log('songs', songs);
 
         const setlists = await createSetlists(songs, bands);
-        console.log(setlists);
+        console.log('setlists', setlists);
 
         for (let setlist of setlists) {
             console.log(setlist.band.name);
             console.log(setlist.songs);
         }
     } catch (e) {
-
         console.error(e)
         process.exit(1)
     } finally {
