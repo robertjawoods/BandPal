@@ -19,7 +19,7 @@ function Error() {
     return (
         <div>
             <h1>Error</h1>
-            <p>{message ?? 'Something went wrong.'}</p>
+            <p>{decodeURIComponent(message ?? 'Something went wrong.')}</p>
         </div>
     )
 }

@@ -20,14 +20,20 @@ export const getURL = async () => {
 const parseAuthError = (error: AuthError): string => {
   console.error(error)
 
+  let message = 'An error occurred'
+
   switch (error.message) {
     case 'INVALID_PASSWORD':
-      return 'Invalid password'
+      message = 'Invalid password'
+      break
     case 'USER_NOT_FOUND':
-      return 'User not found'
+      message = 'User not found'
+      break
     default:
-      return 'An error occurred'
+      message = error.message
   }
+
+  return encodeURIComponent(message)
 }
 export async function login(formData: FormData) {
   const supabase = await createClient()
