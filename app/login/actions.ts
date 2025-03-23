@@ -22,6 +22,8 @@ const parseAuthError = (error: AuthError): string => {
 
   let message = 'An error occurred'
 
+  
+
   switch (error.message) {
     case 'INVALID_PASSWORD':
       message = 'Invalid password'

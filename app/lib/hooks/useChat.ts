@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/app/lib/supabase/client";
 import { Message, type Chat } from "@prisma/client";
+import { getURL } from "@/app/login/actions";
 
 type ChatWithMessages = Chat & {
   members: Array<{ id: string; name?: string | null; email: string }>;
@@ -18,7 +19,7 @@ export function useChat(chatId: string) {
   useEffect(() => {
     async function getChat() {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chat/${chatId}/`, {
+        const response = await fetch(`${await getURL()}/api/chat/${chatId}/`, {
           method: 'GET',
         });
         if (!response.ok) {
