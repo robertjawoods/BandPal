@@ -4,16 +4,18 @@
   "private": true,
   "prisma": {
     "seed": "tsx prisma/seed/seed.ts"
+    
   },
   "scripts": {
-    "dev": "infisical run --env=dev next dev",
+    "dev": "infisical run --env=dev -- next dev",
     "build": "next build",
     "start:prod": "infisical run --env=prod next start",
     "lint": "next lint --fix",
     "clean": "rimraf .turbo node_modules dist",
-    "db:migrate:deploy": "prisma migrate deploy",
-    "db:migrate:dev": "prisma migrate dev",
-    "db:reset": "prisma migrate reset --force",
+    "db:migrate:deploy": "infisical run --env=prod -- prisma migrate deploy",
+    "db:migrate:dev": "infisical run --env=dev -- prisma migrate dev",
+    "db:reset:prod": "infisical run --env=prod --  prisma migrate reset --force",
+    "db:reset:dev": "infisical run --env=dev --  prisma migrate reset --force",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "format": "prisma format",
@@ -22,12 +24,13 @@
     "predev": "bun run generate",
     "studio": "prisma studio",
     "docker": "docker compose up -d",
-    "start:migrate:prod": "prisma migrate deploy && pnpm start",
+    "start:migrate:prod": "infisical run --env=prod prisma migrate deploy && pnpm start",
     "index": "ts-node index-users.ts",
     "postinstall": "prisma generate --no-engine --no-hints",
     "prepare": "husky",
     "supabase:start": "supabase start -x vector",
-    "supabase:stop": "supabase stop --no-backup"
+    "supabase:stop": "supabase stop --no-backup",
+    "migrate:diff": "infisical run --env=prod -- prisma migrate diff --from-schema-datamodel \"./prisma/schema.prisma\" --to-schema-datasource"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.18.1",
