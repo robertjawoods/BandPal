@@ -6,9 +6,9 @@
     "seed": "tsx prisma/seed/seed.ts"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "infisical run --env=dev next dev",
     "build": "next build",
-    "start": "next start",
+    "start:prod": "infisical run --env=prod next start",
     "lint": "next lint --fix",
     "clean": "rimraf .turbo node_modules dist",
     "db:migrate:deploy": "prisma migrate deploy",
@@ -25,8 +25,8 @@
     "start:migrate:prod": "prisma migrate deploy && pnpm start",
     "index": "ts-node index-users.ts",
     "postinstall": "prisma generate --no-engine --no-hints",
-    "prepare": "husky", 
-    "supabase:start": "supabase start -x vector", 
+    "prepare": "husky",
+    "supabase:start": "supabase start -x vector",
     "supabase:stop": "supabase stop --no-backup"
   },
   "dependencies": {
@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
+    "@infisical/cli": "^0.36.19",
     "@next/eslint-plugin-next": "^14.2.24",
     "@types/node": "^20.17.24",
     "@types/react": "^18.3.18",
