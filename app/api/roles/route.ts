@@ -10,4 +10,3 @@ export async function GET() {
        return Response.json({ error: "Failed to fetch roles" }, { status: 500 });
    }
 }
-}
