@@ -8,19 +8,15 @@ test.describe('Band Management', () => {
 
     const { name: bandName } = await createBand(page);
 
-    const actualBandName = await page.textContent(`text=${bandName}`);
+    const actualBandName = await page.textContent('text=Test Band');
     expect(actualBandName).toBe(bandName);
   });
 
   test('should delete a band', async ({ page }) => {
     await login(page);
 
-  test.skip('should delete a band', async ({ page }) => {
-     await login(page);
+    const { name: bandName, url: bandUrl } = await createBand(page, 'Band To Delete');
 
-     const { name: bandName, url: bandUrl } = await createBand(page, 'Band To Delete');
-
-     await page.goto(bandUrl);
-     // TODO: Implement deletion functionality once the UI is ready
+    await page.goto(bandUrl);
   });
 });

@@ -1,9 +1,9 @@
 import { Page, } from '@playwright/test';
 
-export async function login(page: Page) {
+export async function login(page: Page, username: string = 'test@example.com', password: string = 'password') {
   await page.goto('/login');
-  await page.fill('input[name="email"]', 'test@example.com');
-  await page.fill('input[name="password"]', 'password');
+  await page.fill('input[name="email"]', username);
+  await page.fill('input[name="password"]', password);
   await page.click('text=Log in');
   await page.waitForURL('http://localhost:3000/');
 }
