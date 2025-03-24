@@ -8,7 +8,7 @@ test.describe('Band Management', () => {
 
     const { name: bandName } = await createBand(page);
 
-    const actualBandName = await page.textContent('text=Test Band');
+    const actualBandName = await page.textContent(`text=${bandName}`);
     expect(actualBandName).toBe(bandName);
   });
 
