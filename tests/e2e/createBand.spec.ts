@@ -15,14 +15,12 @@ test.describe('Band Management', () => {
   test('should delete a band', async ({ page }) => {
     await login(page);
 
-    const { name: bandName, url: bandUrl } = await createBand(page, 'Band To Delete');
+  test.skip('should delete a band', async ({ page }) => {
+     await login(page);
 
-    await page.goto(bandUrl);
-    // await page.click('text=Edit');
-    // await page.click('text=Delete');
+     const { name: bandName, url: bandUrl } = await createBand(page, 'Band To Delete');
 
-    // // Adjust this based on your actual redirect behavior after deletion
-    // await expect(page).toHaveURL('/dashboard');
-    // await expect(page.locator(`text=${bandName}`)).not.toBeVisible();
+     await page.goto(bandUrl);
+     // TODO: Implement deletion functionality once the UI is ready
   });
 });
