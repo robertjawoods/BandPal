@@ -40,9 +40,8 @@ async function updateUser(
 
   const supabase = await createClient();
 
-  const { data: session, error } = await supabase.auth.getSession();
-
-
+  const { error } = await supabase.auth.getSession();
+  
   if (error) {
     console.error("Error getting user", error.message);
     throw new Error("Failed to get user.");
