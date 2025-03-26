@@ -15,7 +15,12 @@ export async function GET(_: Request, props: { params: Promise<{ id: string }> }
             id: params.id,
         },
         include: {
-            profile: true,
+            profile: {
+                include: {
+                    influences: true,
+                    role: true,
+                },
+            },
             bands: true,
         },
     });
@@ -28,10 +33,26 @@ export async function PATCH(request: Request, props: { params: Promise<{ id: str
     const params = await props.params;
     const data = (await request.json()) as Prisma.UserUpdateInput;
 
+    if (!params.id) {
+        return Response.json({ message: "User ID is required" }, { status: 400 });
+    }
+
+    const profile = await prisma.profile.findFirst({
+        where: {
+            userId: params.id,
+        },
+    });
+
+    if (!profile) {
+        return Response.json({message: "Profile not found"}, { status: 404 });
+    }
+
+    console.log("Updating user", params.id, data);  
+
     try {
         const updated = await prisma.user.update({
             where: { id: params.id },
-            data, 
+            data,
         });
 
         return Response.json(updated, { status: 200 });

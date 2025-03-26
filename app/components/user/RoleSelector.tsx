@@ -1,22 +1,28 @@
 "use client";
 
 import { Role } from "@prisma/client";
-import { ChangeEvent, useState, KeyboardEvent } from "react";
+import { ChangeEvent, useState, KeyboardEvent, useEffect } from "react";
 
 export function RoleSelector({ availableRoles, initialRoles = [] }: { availableRoles: Role[], initialRoles?: Role[] }) {
   const [selectedRoles, setSelectedRoles] = useState(initialRoles);
   const [inputValue, setInputValue] = useState("");
 
-  const addRole = (roleName: string) => {
-    if (roleName && !selectedRoles.find(role => role.name === roleName)) {
-      const role = availableRoles.find(role => role.name === roleName);
+  useEffect(() => {
+    if (initialRoles)
+      setSelectedRoles(initialRoles);
+  }, [initialRoles]);
+
+  const addRole = (roleId: string) => {
+    console.log(roleId);
+    if (roleId && !selectedRoles.find(role => role.id === roleId)) {
+      const role = availableRoles.find(role => role.id === roleId);
       if (!role) return;
       setSelectedRoles([...selectedRoles, role]);
     }
   };
 
-  const removeRole = (roleName: string) => {
-    setSelectedRoles(selectedRoles.filter(role => role.name !== roleName));
+  const removeRole = (roleId: string) => {
+    setSelectedRoles(selectedRoles.filter(role => role.id !== roleId));
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +37,6 @@ export function RoleSelector({ availableRoles, initialRoles = [] }: { availableR
     }
   };
 
-  // Filter suggestions based on the input value and exclude already selected roles by comparing ids
   const suggestions = availableRoles.filter(role =>
     role.name.toLowerCase().includes(inputValue.toLowerCase()) &&
     !selectedRoles.some(selected => selected.id === role.id)
@@ -56,10 +61,7 @@ export function RoleSelector({ availableRoles, initialRoles = [] }: { availableR
         ))}
       </div>
 
-      {/* Hidden inputs to pass role ids in the form submission */}
-      {selectedRoles.map(role => (
-        <input key={role.id} type="hidden" name="roleIds[]" value={role.id} />
-      ))}
+      <input type="hidden" name="roleIds" value={JSON.stringify(selectedRoles.map(r => r.id))} />
 
       {/* Input for adding roles */}
       <input data-testid="role-input"
@@ -79,7 +81,7 @@ export function RoleSelector({ availableRoles, initialRoles = [] }: { availableR
               key={suggestion.id}
               className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => {
-                addRole(suggestion.name);
+                addRole(suggestion.id);
                 setInputValue("");
               }}
             >

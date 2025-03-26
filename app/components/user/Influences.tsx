@@ -18,10 +18,7 @@ interface ArtistData {
   image: any[];
 }
 
-export function Influences({ influences, userId }: InfluencesProps) {
-
-  console.log('influences', influences);
-
+export function Influences({ userId }: InfluencesProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState<ArtistData[]>([]);
   // const [loading, setLoading] = useState(false);

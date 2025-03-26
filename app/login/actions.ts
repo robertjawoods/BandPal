@@ -20,9 +20,7 @@ export const getURL = async () => {
 const parseAuthError = (error: AuthError): string => {
   console.error(error)
 
-  let message = 'An error occurred'
-
-  
+  let message = 'An error occurred'  
 
   switch (error.message) {
     case 'INVALID_PASSWORD':

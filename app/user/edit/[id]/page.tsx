@@ -1,28 +1,56 @@
-"use server"
+"use client"
 
-import prisma from "@/app/lib/prisma";
-import { updateUser } from "./updateUser";
+import { updateAction } from "./updateUser";
 import { Influences } from "@/app/components/user/Influences";
 import { RoleSelector } from "@/app/components/user/RoleSelector";
+import { useAction } from "next-safe-action/hooks";
+import { use, useEffect, useMemo, useState } from "react";
+import { UserWithProfile } from "@/app/lib/types/user";
+import { Role } from "@prisma/client";
 
-export default async function EditUser(props: { params: Promise<{ id: string }> }) {
-    const { id: userId } = await props.params;
+export default function EditUser(props: { params: Promise<{ id: string }> }) {
+    const { execute, hasErrored, hasSucceeded, status, result, input } = useAction(updateAction);
+    const { id: userId } = use(props.params);
+    const [user, setUser] = useState<UserWithProfile>();
+    const [availableRoles, setAvailableRoles] = useState<Role[]>([]);
 
-    const user = await prisma.user.findUnique({
-        where: {
-            id: userId
-        },
-        include: {
-            profile: {
-                include: {
-                    influences: true,
-                    role: true
-                }
-            }
+    useEffect(() => {
+        if (!userId) {
+            return;
         }
-    });
 
-    const availableRoles = await prisma.role.findMany();
+        const fetchUser = async () => {
+            const response = await fetch(`/api/user/${userId}`);
+            const data = await response.json() as UserWithProfile;
+
+            setUser(data);
+
+            console.log(data);
+        };
+
+        fetchUser();
+    }, [userId]);
+
+    // Inside the EditUser component:
+    const initialRoles = useMemo(() => {
+        return user?.profile?.role ?? [];
+    }, [user?.profile?.role]);
+
+    useEffect(() => {
+        console.log({ hasErrored, hasSucceeded, status, result, input: JSON.stringify(input) });
+    }, [hasErrored, hasSucceeded, status, result, input]);
+
+
+    useEffect(() => {
+        const fetchRoles = async () => {
+            const response = await fetch(`/api/roles`);
+            const data = await response.json();
+
+            setAvailableRoles(data);
+        };
+
+        fetchRoles();
+    }, []);
 
     return (
         <div className="flex flex-col gap-5">
@@ -33,8 +61,8 @@ export default async function EditUser(props: { params: Promise<{ id: string }> 
                 <Influences userId={userId} influences={user?.profile?.influences} />
             </div>
 
-            <div>
-                <form action={updateUser} className="flex flex-col gap-3">
+            {user && <div>
+                <form className="flex flex-col gap-3" action={execute}>
                     <label htmlFor="name">Name</label>
                     <input type="text" name="name" placeholder="Enter your name" defaultValue={user?.name ?? ""} />
                     <label htmlFor="bio">Bio</label>
@@ -42,19 +70,19 @@ export default async function EditUser(props: { params: Promise<{ id: string }> 
                     <label htmlFor="location">Location</label>
                     <input type="text" name="location" placeholder="Enter your location" defaultValue={user?.profile?.location ?? ""} />
                     <label htmlFor="role">Role</label>
-                    <RoleSelector availableRoles={availableRoles} initialRoles={user?.profile?.role} />
+                    <RoleSelector availableRoles={availableRoles} initialRoles={initialRoles} />
                     <label htmlFor="image">Image</label>
-                    <input title="image" type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
+                    <input title="image" type="file" name="image" accept="image/*" />
                     <input type="hidden" name="userId" value={userId} />
                     <label htmlFor="allowMessages">Allow messages</label>
-                    <input type="checkbox" name="allowMessages" defaultChecked={user?.profile?.allowMessages} />
+                    <input type="checkbox" name="allowMessages" checked={user?.profile?.allowMessages} onChange={() => { }} />
                     <label htmlFor="lookingForBand">Looking for band</label>
-                    <input type="checkbox" name="lookingForBand" defaultChecked={user?.profile?.lookingForBand} />
+                    <input type="checkbox" name="lookingForBand" checked={user?.profile?.lookingForBand} onChange={() => { }} />
                     <label htmlFor="isPublic">Public profile</label>
-                    <input type="checkbox" name="isPublic" defaultChecked={user?.profile?.isPublic} />
-                    <button className="bg-slate-700 text-white rounded py-2 px-4">Save</button>
+                    <input type="checkbox" name="isPublic" checked={user?.profile?.isPublic} onChange={() => { }} />
+                    <button className="bg-slate-700 text-white rounded py-2 px-4" type="submit">Save</button>
                 </form>
-            </div>
+            </div>}
         </div>
     );
 }

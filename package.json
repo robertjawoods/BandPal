@@ -6,7 +6,7 @@
     "seed": "tsx prisma/seed/seed.ts"
   },
   "scripts": {
-    "dev": "infisical run --env=dev -- next dev",
+    "dev": "infisical run --env=prod -- next dev",
     "build": "next build",
     "start:prod": "infisical run --env=prod next start",
     "lint": "next lint --fix",
@@ -46,12 +46,14 @@
     "@vercel/speed-insights": "^1.2.0",
     "algoliasearch": "^4.24.0",
     "next": "15.2.2",
+    "next-safe-action": "^7.10.4",
     "playwright": "^1.51.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "supabase": "2.19.8",
     "tsx": "^4.19.3",
-    "yup": "^1.6.1"
+    "yup": "^1.6.1",
+    "zod-form-data": "^2.0.7"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
