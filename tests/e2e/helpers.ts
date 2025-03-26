@@ -1,5 +1,7 @@
 import { Page, } from '@playwright/test';
 
+export const UserIdRegex = /[0-9a-fA-F-]{36}$/
+
 export async function login(page: Page, username: string = 'test@example.com', password: string = 'password') {
   await page.goto('/login');
   await page.fill('input[name="email"]', username);
