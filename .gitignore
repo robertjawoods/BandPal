@@ -40,3 +40,6 @@ next-env.d.ts
 
 *.crt
 .infisical.json
+
+playwright-report
+test-results

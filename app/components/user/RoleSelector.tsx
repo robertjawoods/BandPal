@@ -45,14 +45,15 @@ export function RoleSelector({ availableRoles, initialRoles = [] }: { availableR
   return (
     <div className="w-full max-w-sm mx-auto">
       {/* Display selected roles as tags */}
-      <div className="flex flex-wrap gap-2 mb-2">
+      <div className="flex flex-wrap gap-2 mb-2" data-testid='role-display'>
         {selectedRoles.map(role => (
-          <span key={role.id} className="inline-flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+          <span key={role.id} className="inline-flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-full" data-testid={`${role.name.toLowerCase()}-role`}>
             {role.name}
             <button
               type="button"
               className="ml-1 text-blue-900"
-              onClick={() => removeRole(role.id)}
+              onClick={() => removeRole(role.name)}
+              data-testid={`${role.name.toLowerCase()}-role-remove`}
             >
               &times;
             </button>
@@ -63,7 +64,7 @@ export function RoleSelector({ availableRoles, initialRoles = [] }: { availableR
       <input type="hidden" name="roleIds" value={JSON.stringify(selectedRoles.map(r => r.id))} />
 
       {/* Input for adding roles */}
-      <input
+      <input data-testid="role-input"
         type="text"
         placeholder="Enter a role"
         value={inputValue}
@@ -74,7 +75,7 @@ export function RoleSelector({ availableRoles, initialRoles = [] }: { availableR
 
       {/* Autocomplete suggestions -- own component? */}
       {inputValue && suggestions.length > 0 && (
-        <ul className="border border-gray-300 mt-1 rounded-lg max-h-40 overflow-y-auto">
+        <ul className="border border-gray-300 mt-1 rounded-lg max-h-40 overflow-y-auto" data-testid="role-suggestions">
           {suggestions.map(suggestion => (
             <li
               key={suggestion.id}

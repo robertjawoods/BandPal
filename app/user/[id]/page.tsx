@@ -16,7 +16,7 @@ export default async function User(props: { params: Promise<{ id: string }> }) {
             profile: {
                 include: {
                     influences: true,
-                    role: true
+                    role: true,
                 },
             }
         }

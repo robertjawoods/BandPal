@@ -29,20 +29,25 @@
     "prepare": "husky",
     "supabase:start": "supabase start -x vector",
     "supabase:stop": "supabase stop --no-backup",
-    "migrate:diff": "infisical run --env=prod -- prisma migrate diff --from-schema-datamodel \"./prisma/schema.prisma\" --to-schema-datasource"
+    "migrate:diff": "infisical run --env=prod -- prisma migrate diff --from-schema-datamodel \"./prisma/schema.prisma\" --to-schema-datasource",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.18.1",
     "@algolia/autocomplete-plugin-redirect-url": "^1.18.1",
     "@algolia/autocomplete-theme-classic": "^1.18.1",
+    "@playwright/test": "^1.51.1",
     "@prisma/client": "^6.5.0",
     "@prisma/extension-accelerate": "^1.2.2",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.1",
+    "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "algoliasearch": "^4.24.0",
     "next": "15.2.2",
     "next-safe-action": "^7.10.4",
+    "playwright": "^1.51.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "supabase": "2.19.8",
@@ -66,7 +71,8 @@
     "prisma": "^6.5.0",
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "@types/bun": "latest"
   },
-  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  "packageManager": "bun@1.2.3"
 }
