@@ -24,8 +24,8 @@ export async function GET(_: Request, props: { params: Promise<{ id: string }> }
     return Response.json(user, { status: 200 })
 }
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
- 
+export async function PATCH(request: Request, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     const data = (await request.json()) as Prisma.UserUpdateInput;
 
     try {
