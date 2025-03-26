@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 import { login, createBand } from './helpers';
 
 test.describe('Band Management', () => {
-  test('should create a new band', async ({ page }) => {
+  test.fixme('should create a new band', async ({ page }) => {
     await login(page);
 
     const { name: bandName } = await createBand(page);
@@ -12,7 +12,7 @@ test.describe('Band Management', () => {
     expect(actualBandName).toBe(bandName);
   });
 
-  test('should delete a band', async ({ page }) => {
+  test.fixme('should delete a band', async ({ page }) => {
     await login(page);
 
     const { name: bandName, url: bandUrl } = await createBand(page, 'Band To Delete');

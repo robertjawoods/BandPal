@@ -48,6 +48,7 @@ export function RoleSelector({ availableRoles, initialRoles = [] }: { availableR
               type="button"
               className="ml-1 text-blue-900"
               onClick={() => removeRole(role.name)}
+              data-testid={`${role.name.toLowerCase()}-role-remove`}
             >
               &times;
             </button>

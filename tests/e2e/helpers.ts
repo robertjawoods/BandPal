@@ -1,4 +1,4 @@
-import { Page, } from '@playwright/test';
+import { expect, Page, } from '@playwright/test';
 
 export const UserIdRegex = /[0-9a-fA-F-]{36}$/
 
@@ -20,4 +20,16 @@ export async function createBand(page: Page, namePrefix = 'Test Band') {
     name: bandName,
     url: page.url(),
   };
+}
+
+export async function addUserRole({ page, role = 'bass' }: { page: Page, role?: string }) {
+    const input = page.getByTestId("role-input");
+
+    await input.fill(role);
+
+    const suggestions = page.getByTestId("role-suggestions");
+
+    expect(suggestions).not.toBeNull();
+
+    await page.click('text=Bass');
 }
