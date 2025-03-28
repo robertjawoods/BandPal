@@ -3,16 +3,27 @@
 import { Band } from "@prisma/client";
 import { redirect } from "next/navigation";
 import prisma from "@/app/lib/prisma";
+import { zfd } from "zod-form-data";
+import { z } from "zod";
+import { actionClient } from "@/app/lib/safe-action";
 
-export async function editBand(formData: FormData) {
+const schema = zfd.formData({
+    id: z.string(),
+    name: z.string().nonempty(),
+    bio: z.string().optional(),
+    lookingForMembers: z.boolean({ coerce: true }),
+    genre: z.string().optional()
+});
 
+type EditBandInput = z.infer<typeof schema>;
+
+export const editBandAction = actionClient
+    .schema(schema)
+    .action(editBand);
+
+async function editBand({ parsedInput: { id, name, bio, lookingForMembers, genre } }: { parsedInput: EditBandInput }) {
     let band: Band | null = null;
     try {
-        const id = formData.get('id')?.toString();
-        const name = formData.get('name')?.toString();
-        const bio = formData.get('bio')?.toString();
-        const lookingForMembers = formData.get('lookingForMembers')?.toString();
-        const genre = formData.get('genre')?.toString();
 
         band = await prisma.band.update({
             where: {
@@ -21,7 +32,7 @@ export async function editBand(formData: FormData) {
             data: {
                 name,
                 bio,
-                lookingForMembers: lookingForMembers === 'on',
+                lookingForMembers,
                 genre
             }
         });

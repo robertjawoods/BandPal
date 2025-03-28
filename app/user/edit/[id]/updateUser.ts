@@ -11,7 +11,7 @@ import { createClient } from '@/app/lib/supabase/server';
 
 const schema = zfd.formData({
   userId: z.string(),
-  name: z.string(),
+  name: z.string().nonempty(),
   bio: z.string().optional(),
   location: z.string().optional(),
   roleIds: z.preprocess(val => {
@@ -35,10 +35,7 @@ type EditInput = z.infer<typeof schema>;
 async function updateUser(
   { parsedInput: { name, bio, location, roleIds, image, allowMessages, isPublic, lookingForBand, userId } }: { parsedInput: EditInput }
 ) {
-  console.log(process.env.NEXT_PUBLIC_SUPABASE_URL)
-  console.log("Updating user", name, bio, location, roleIds, allowMessages, isPublic, lookingForBand, userId);
-
-  const supabase = await createClient();
+   const supabase = await createClient();
 
   const { error } = await supabase.auth.getSession();
   
@@ -61,7 +58,6 @@ async function updateUser(
         allowMessages,
         lookingForBand,
         isPublic,
-        // TODO: fix file input, use supabase storage to upload image
         image: (publicUrl && { set: publicUrl }) || undefined,
       }
     },

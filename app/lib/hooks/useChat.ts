@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/app/lib/supabase/client";
 import { Message, type Chat } from "@prisma/client";
 import { getURL } from "@/app/login/actions";
+import { sendMessageAction } from "@/app/chat/[id]/sendMessage";
+import { useAction } from "next-safe-action/hooks";
 
 type ChatWithMessages = Chat & {
   members: Array<{ id: string; name?: string | null; email: string }>;
@@ -12,6 +14,8 @@ export function useChat(chatId: string) {
   const [chat, setChat] = useState<ChatWithMessages | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+
+  const { execute, hasErrored, result } = useAction(sendMessageAction);
 
   const supabase = createClient();
 
@@ -71,5 +75,5 @@ export function useChat(chatId: string) {
     };
   }, [chatId, supabase]);
 
-  return { chat, loading, error };
+  return { chat, loading, error, form: { sendMessageAction: execute, hasErrored, result } };
 }

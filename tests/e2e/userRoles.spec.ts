@@ -71,7 +71,11 @@ test.describe('User Roles', () => {
 
         const removeButton = page.getByTestId("bass guitar-role-remove");
 
-        await removeButton.click();
+        await removeButton.click({
+            button: 'left', 
+            delay: 100, 
+            
+        });
 
         expect(await roles.textContent()).not.toContain("Bass");
     });
