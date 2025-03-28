@@ -45,7 +45,7 @@
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "algoliasearch": "^4.24.0",
-    "next": "15.2.2",
+    "next": "15.2.3",
     "next-safe-action": "^7.10.4",
     "playwright": "^1.51.1",
     "react": "^18.3.1",
