@@ -8,6 +8,8 @@ export async function login(page: Page, username: string = 'test@example.com', p
   await page.fill('input[name="password"]', password);
   await page.click('text=Log in');
   await page.waitForURL('http://localhost:3000/');
+
+  
 }
 
 export async function createBand(page: Page, namePrefix = 'Test Band') {
