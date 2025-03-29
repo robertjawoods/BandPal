@@ -49,10 +49,10 @@ export default defineConfig({
       use: { ...devices['Pixel 5'] },
     }
   ],
-  // Run your local dev server before starting the tests.
-  webServer: {
-    command: 'bun dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-  },
+  // // Run your local dev server before starting the tests.
+  // webServer: {
+  //   command: 'bun dev',
+  //   url: 'http://localhost:3000',
+  //   reuseExistingServer: !process.env.CI,
+  // },
 });

@@ -1,8 +1,8 @@
-// tests/e2e/userRoles.spec.ts
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { addUserRole, login } from './helpers';
-
 import { faker } from '@faker-js/faker';
+import { EditUserPage } from './pages/editUserPage';
+
 
 test.describe('Edit user', () => {
     test('editing user is successful', async ({ page }) => {
@@ -12,32 +12,26 @@ test.describe('Edit user', () => {
 
         await login(page);
 
-        await page.click('text=Account');
-        await page.click('text=Edit');
+        const userPage = new EditUserPage(page);
 
-        await page.waitForURL(/\/user\/edit\/[0-9a-fA-F-]{36}$/);
-
-        await page.fill('input[name="name"]', testName);
-        await page.fill('textarea[name="bio"]', testBio);
-        await page.fill('input[name="location"]', testLocation);
+        await userPage.navigateToEditPage();
+        await userPage.fillName(testName);
+        await userPage.fillBio(testBio);
+        await userPage.fillLocation(testLocation);
 
         await addUserRole({ page, role: 'bass' });
 
-        await page.click('text=Save');
-
-        await page.waitForURL(/\/user\/[0-9a-fA-F-]{36}$/);
+        await userPage.saveChanges();
 
         await page.waitForSelector('[data-testid="name"]');
 
-        expect(page.getByTestId('name')).toHaveText(testName, { useInnerText: true });
-        expect(page.getByTestId('bio')).toHaveText(testBio, { useInnerText: true });
-        expect(page.getByTestId('location')).toHaveText(testLocation, { useInnerText: true });
+        expect(await userPage.getName()).toHaveText(testName, { useInnerText: true });
+        expect(await userPage.getBio()).toHaveText(testBio, { useInnerText: true });
+        expect(await userPage.getLocation()).toHaveText(testLocation, { useInnerText: true });
 
-        const roles = page.getByTestId('roles');
+        const roles = await userPage.getRoles();
 
         expect(roles).toHaveCount(1);
-
         expect(roles).toContainText('Bass', { useInnerText: true });
     });
 });
-
