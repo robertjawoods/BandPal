@@ -31,7 +31,7 @@
     "supabase:stop": "supabase stop --no-backup",
     "db:migrate:diff": "infisical run --env=prod -- prisma migrate diff --from-schema-datamodel \"./prisma/schema.prisma\" --to-schema-datasource",
     "test:e2e:ci": "playwright test --no-deps",
-    "test:e2e:": "playwright test --ui",
+    "test:e2e": "playwright test --ui",
     "test:e2e:chrome": "playwright test --project=chromium"
   },
   "dependencies": {
