@@ -37,9 +37,6 @@ jobs:
           timeout: 420
           poll-interval: 15
 
-      - name: Run dev server
-        run: bun dev
-
       # Step 3: Run your end-to-end tests
       - name: Run E2E Tests
         run: bun test:e2e
