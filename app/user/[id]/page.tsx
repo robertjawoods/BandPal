@@ -31,7 +31,7 @@ export default async function User(props: { params: Promise<{ id: string }> }) {
     return (
         <>
             <h1 data-testid='name'>{user?.name}</h1>
-            <Link href={`/user/edit/${user?.id}`}>Edit</Link>
+            <Link href={`/user/${user?.id}/edit`}>Edit</Link>
             {user?.profile?.image && <Image src={user?.profile?.image} alt={user?.name ?? ''} width={200} height={200} className="rounded-full" />}
 
             {!isMe && user?.profile?.allowMessages && <CreateChat currentUserId={currentUser?.id ?? ""} userId={user?.id ?? ""} />}

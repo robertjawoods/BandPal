@@ -1,0 +1,33 @@
+on: 
+    pull_request
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Retrieve the Vercel Preview URL
+      - name: vercel-preview-url
+        uses: zentered/vercel-preview-url@v1.1.9
+        if: github.event_name != 'pull_request'
+        id: vercel_preview_url
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GITHUB_REF: "main"
+          GITHUB_REPOSITORY: "bandpal"
+        with:
+          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      # Step 2: Wait for the Vercel deployment to be ready
+      - uses: UnlyEd/github-action-await-vercel@v1
+        id: await-vercel
+        if: github.event_name != 'pull_request'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        with:
+          deployment-url: ${{ steps.vercel_preview_url.outputs.preview_url }}
+          timeout: 420
+          poll-interval: 15
+
+      # Step 3: Run your end-to-end tests
+      - name: Run E2E Tests
+        run: npm run test:e2e

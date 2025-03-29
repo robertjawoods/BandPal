@@ -60,7 +60,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       </div>
 
       {isAdmin &&
-        <Link href={`/band/edit/${band.id}`}>
+        <Link href={`/band/${band.id}/edit`}>
           <button className="bg-slate-700 text-white rounded py-2 px-4">Edit Band</button>
         </Link>
       }
@@ -73,7 +73,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
       <div className="main-container flex">
         <div className="members">
-          {band.showMembers || true &&
+          {band.showMembers &&
             <div className="py-5  border border-red-400 rounded mr-auto ml-4">
               <h2 className="text-lg font-semibold">Members</h2>
               <Members members={band.members} bandId={params.id} isOwner={false} />

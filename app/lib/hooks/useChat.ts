@@ -9,8 +9,23 @@ type ChatWithMessages = Chat & {
   members: Array<{ id: string; name?: string | null; email: string }>;
   messages: Array<Message & { sender: { id: string; name?: string | null; email: string } }>;
 };
+interface UseChatReturn {
+  chat: ChatWithMessages | null;
+  loading: boolean;
+  error: Error | null;
+  form: {
+    // eslint-disable-next-line 
+    execute: (input: FormData | {
+      chatId: string;
+      message: string;
+    }) => void;
+    hasErrored: boolean;
+    result: any; // Replace 'any' with the actual result type
+  };
+}
 
-export function useChat(chatId: string) {
+
+export function useChat(chatId: string): UseChatReturn {
   const [chat, setChat] = useState<ChatWithMessages | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -75,5 +90,5 @@ export function useChat(chatId: string) {
     };
   }, [chatId, supabase]);
 
-  return { chat, loading, error, form: { sendMessageAction: execute, hasErrored, result } };
+  return { chat, loading, error, form: { execute, hasErrored, result } };
 }
