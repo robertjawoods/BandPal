@@ -5,6 +5,9 @@ jobs:
   e2e-tests:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        
       # Step 1: Retrieve the Vercel Preview URL
       - name: vercel-preview-url
         uses: zentered/vercel-preview-url@v1.1.9
