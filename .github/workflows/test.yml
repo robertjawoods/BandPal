@@ -12,8 +12,8 @@ jobs:
         uses: oven-sh/setup-bun@v2
       - name: Install dependencies
         run: bun install
-      - name: Install Playwright
-        run: bunx playwright install --with-deps
+      - name: Setup Playwright
+        uses: ./.github/actions/setup-playwright
       - name: Run Playwright tests
         run: echo ${{ github.event.deployment_status.target_url }} && bunx playwright test 
         env:
