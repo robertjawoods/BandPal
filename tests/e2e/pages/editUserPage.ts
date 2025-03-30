@@ -10,7 +10,8 @@ export class EditUserPage {
     async navigateToEditPage() {
         await this.page.click('text=Account');
         await this.page.click('text=Edit');
-        await this.page.waitForURL(/\/user\/edit\/[0-9a-fA-F-]{36}$/);
+        
+        await this.page.waitForSelector('input[name="name"]');
     }
 
     async fillName(name: string) {

@@ -15,6 +15,8 @@ test.describe('Edit user', () => {
         const userPage = new EditUserPage(page);
 
         await userPage.navigateToEditPage();
+
+
         await userPage.fillName(testName);
         await userPage.fillBio(testBio);
         await userPage.fillLocation(testLocation);
