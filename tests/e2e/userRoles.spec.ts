@@ -59,6 +59,9 @@ test.describe('User Roles', () => {
         await login(page);
 
         await page.click('text=Account');
+
+        await page.waitForURL(/\/user\/[0-9a-fA-F-]{36}$/);
+
         await page.click('text=Edit');
 
         await addUserRole({ page });

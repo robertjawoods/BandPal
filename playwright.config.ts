@@ -8,9 +8,9 @@ export default defineConfig({
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
   workers: isCI ? 3 : undefined,
-  reporter: 'html',
+  reporter: [['html'], ['json', { outputFile: 'test-results.json' }]],
   timeout: isCI ? 5000 : 10000,
-  
+
 
   use: {
     baseURL: isCI ? process.env.PLAYWRIGHT_TEST_BASE_URL : 'http://localhost:3000',
@@ -18,6 +18,12 @@ export default defineConfig({
     extraHTTPHeaders: isCI ? {
       'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET!,
     } : {},
+    video: isCI ? {
+      mode: 'retain-on-failure',
+      size: { width: 1920, height: 1080 }
+    } : {
+      mode: 'off'
+    }
   },
 
   projects: [
@@ -46,10 +52,10 @@ export default defineConfig({
   ...(isCI
     ? {}
     : {
-        webServer: {
-          command: 'bun dev',
-          url: 'http://localhost:3000',
-          reuseExistingServer: true,
-        },
-      }),
+      webServer: {
+        command: 'bun dev',
+        url: 'http://localhost:3000',
+        reuseExistingServer: true,
+      },
+    }),
 });
