@@ -1,6 +1,7 @@
 # Bandpal
 
 [![.github/workflows/test.yml](https://github.com/robertjawoods/BandPal/actions/workflows/test.yml/badge.svg)](https://github.com/robertjawoods/BandPal/actions/workflows/test.yml)
+![Vercel](https://vercelbadge.vercel.app/api/robertjawoods/bandpal)
 
 ## Local Environment Setup
 

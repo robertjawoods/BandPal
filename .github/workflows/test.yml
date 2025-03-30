@@ -18,6 +18,7 @@ jobs:
         run: echo ${{ github.event.deployment_status.target_url }} && bunx playwright test 
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTH_BYPASS }}
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
