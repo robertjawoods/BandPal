@@ -59,6 +59,9 @@ test.describe('User Roles', () => {
         await login(page);
 
         await page.click('text=Account');
+
+        await page.waitForURL(/\/user\/[0-9a-fA-F-]{36}$/);
+
         await page.click('text=Edit');
 
         await addUserRole({ page });
@@ -71,7 +74,11 @@ test.describe('User Roles', () => {
 
         const removeButton = page.getByTestId("bass guitar-role-remove");
 
-        await removeButton.click();
+        await removeButton.click({
+            button: 'left', 
+            delay: 100, 
+            
+        });
 
         expect(await roles.textContent()).not.toContain("Bass");
     });

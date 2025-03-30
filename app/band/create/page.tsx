@@ -1,9 +1,11 @@
 "use client"
 
 import { useUser } from "@/app/lib/hooks/useUser";
-import { createBand } from "./createBand";
+import { createBandAction } from "./createBand";
+import { useAction } from "next-safe-action/hooks";
 
 export default function CreateBandPage() {
+    const { execute, hasErrored } = useAction(createBandAction);
 
     const { user, error } = useUser();
 
@@ -12,10 +14,13 @@ export default function CreateBandPage() {
     }
 
     return <>
-        <form action={(formData) => createBand(formData, user)}>
+        <form action={execute}>
             <label htmlFor="name">Band Name:</label>
             <input type="text" name="name" title="Name" />
+            {/* should probably get the user id on the server side */}
+            <input type="hidden" name="userId" value={user?.id} />
             <input type="submit" value="Create" />
         </form>
+        { hasErrored && <div>There was an error creating the band.</div> }
     </>
 }

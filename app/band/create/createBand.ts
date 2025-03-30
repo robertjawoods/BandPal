@@ -3,28 +3,45 @@
 import { Band } from "@prisma/client";
 import { redirect } from "next/navigation";
 import prisma from "@/app/lib/prisma";
-import { User } from "@supabase/supabase-js";
+import { actionClient } from "@/app/lib/safe-action";
+import { zfd } from "zod-form-data";
+import { z } from "zod";
 
-export async function createBand(formData: FormData, user: User | null) {
-    if (!user) {
+const schema = zfd.formData({
+    name: z.string().nonempty(),
+    userId: z.string(),
+});
+
+type CreateBandInput = z.infer<typeof schema>;
+
+export const createBandAction = actionClient
+    .schema(schema)
+    .action(createBand);
+
+export async function createBand({ parsedInput: { name, userId } }: { parsedInput: CreateBandInput }) {
+    if (!userId) {
         redirect('/')
     }
 
     let band: Band | null = null;
     try {
-        console.log(user);
+        console.log(userId);
 
-        if (!user) {
+        if (!userId) {
             throw new Error('User not found');
         }
 
         band = await prisma.band.create({
             data: {
-                name: formData.get('name')?.toString()!,
-                userId: user.id,
+                name: name,
+                admin: {
+                    connect: {
+                        id: userId
+                    }
+                },
                 members: {
                     connect: {
-                        id: user.id
+                        id: userId
                     }
                 },
             }
@@ -34,32 +51,6 @@ export async function createBand(formData: FormData, user: User | null) {
             throw new Error("Band not created");
         }
 
-        await prisma.user.update({
-            where: {
-                id: user.id
-            },
-            data: {
-                bands: {
-                    connect: {
-                        id: band.id
-                    }
-                },
-                administrator: {
-                    connect: {
-                        id: band.id
-                    }
-                }
-            },
-            include: {
-                bands: true,
-                administrator: true
-            }
-        });
-
-        console.log(band);
-        console.log(user)
-
-
     } catch (e) {
         console.log(e)
     }
@@ -67,3 +58,4 @@ export async function createBand(formData: FormData, user: User | null) {
     if (band)
         redirect(`/band/${band.id}`);
 }
+

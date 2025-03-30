@@ -6,21 +6,14 @@
     "seed": "tsx prisma/seed/seed.ts"
   },
   "scripts": {
-    "dev": "infisical run --env=prod -- next dev",
-    "build": "next build",
-    "start:prod": "infisical run --env=prod next start",
-    "lint": "next lint --fix",
-    "clean": "rimraf .turbo node_modules dist",
-    "db:migrate:deploy": "infisical run --env=prod -- prisma migrate deploy",
-    "db:migrate:dev": "infisical run --env=dev -- prisma migrate dev",
-    "db:reset:prod": "infisical run --env=prod --  prisma migrate reset --force",
+    "dev": "infisical run --env=dev -- next dev",  
+    "db:migrate:dev": "infisical run --env=dev -- prisma migrate dev && prisma generate --no-hints",
     "db:reset:dev": "infisical run --env=dev --  prisma migrate reset --force",
-    "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts",
-    "format": "prisma format",
-    "generate": "prisma generate --no-hints",
-    "prebuild": "bun run generate",
-    "predev": "bun run generate",
+    "test:e2e": "playwright test --ui",
+    "db:format": "prisma format",
+    "db:generate": "prisma generate --no-hints",
+    "prebuild": "bun run db:generate",
+    "predev": "bun run db:generate",
     "studio": "prisma studio",
     "docker": "docker compose up -d",
     "start:migrate:prod": "infisical run --env=prod prisma migrate deploy && pnpm start",
@@ -29,9 +22,17 @@
     "prepare": "husky",
     "supabase:start": "supabase start -x vector",
     "supabase:stop": "supabase stop --no-backup",
-    "migrate:diff": "infisical run --env=prod -- prisma migrate diff --from-schema-datamodel \"./prisma/schema.prisma\" --to-schema-datasource",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "db:migrate:diff": "infisical run --env=prod -- prisma migrate diff --from-schema-datamodel \"./prisma/schema.prisma\" --to-schema-datasource",
+    "test:e2e:ci": "playwright test --no-deps",
+    "test:e2e:chrome": "playwright test --project=chromium",
+    "build": "next build",
+    "start:prod": "infisical run --env=prod next start",
+    "lint": "next lint --fix",
+    "clean": "rimraf .turbo node_modules dist",
+    "db:migrate:deploy": "infisical run --env=prod -- prisma migrate deploy",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:reset:prod": "infisical run --env=prod --  prisma migrate reset --force"
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.18.1",
@@ -47,7 +48,7 @@
     "algoliasearch": "^4.24.0",
     "next": "15.2.3",
     "next-safe-action": "^7.10.4",
-    "playwright": "^1.51.1",
+    
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "supabase": "2.19.8",
@@ -72,7 +73,8 @@
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "playwright": "^1.51.1"
   },
   "packageManager": "bun@1.2.3"
 }

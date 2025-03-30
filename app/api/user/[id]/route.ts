@@ -50,6 +50,19 @@ export async function PATCH(request: Request, props: { params: Promise<{ id: str
     console.log("Updating user", params.id, data);  
 
     try {
+        const user = await prisma.user.findFirst({
+            where: {
+                id: params.id,
+            },
+            select: {
+                id: true,
+            },
+        });
+
+        if (!user) {
+            return Response.json({ message: "User not found" }, { status: 404 });
+        }
+
         const updated = await prisma.user.update({
             where: { id: params.id },
             data,

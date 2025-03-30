@@ -1,32 +1,31 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const isCI = !!process.env.CI;
+
 export default defineConfig({
-  // Look for test files in the "tests" directory, relative to this configuration file.
   testDir: 'tests/e2e',
-
-  // Run all tests in parallel.
   fullyParallel: true,
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 3 : undefined,
+  reporter: [['html'], ['json', { outputFile: 'test-results.json' }]],
+  timeout: isCI ? 5000 : 10000,
 
-  // Fail the build on CI if you accidentally left test.only in the source code.
-  forbidOnly: !!process.env.CI,
-
-  // Retry on CI only.
-  retries: process.env.CI ? 2 : 0,
-
-  // Opt out of parallel tests on CI.
-  workers: process.env.CI ? 1 : undefined,
-
-  // Reporter to use
-  reporter: 'html',
 
   use: {
-    // Base URL to use in actions like `await page.goto('/')`.
-    baseURL: 'http://localhost:3000',
-
-    // Collect trace when retrying the failed test.
+    baseURL: isCI ? process.env.PLAYWRIGHT_TEST_BASE_URL : 'http://localhost:3000',
     trace: 'on-first-retry',
+    extraHTTPHeaders: isCI ? {
+      'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET!,
+    } : {},
+    video: isCI ? {
+      mode: 'retain-on-failure',
+      size: { width: 1920, height: 1080 }
+    } : {
+      mode: 'off'
+    }
   },
-  // Configure projects for major browsers.
+
   projects: [
     {
       name: 'chromium',
@@ -39,20 +38,24 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-    }, 
+    },
     {
       name: 'iphone',
       use: { ...devices['iPhone 12'] },
-    }, 
+    },
     {
       name: 'android',
       use: { ...devices['Pixel 5'] },
-    }
+    },
   ],
-  // Run your local dev server before starting the tests.
-  webServer: {
-    command: 'bun dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-  },
+
+  ...(isCI
+    ? {}
+    : {
+      webServer: {
+        command: 'bun dev',
+        url: 'http://localhost:3000',
+        reuseExistingServer: true,
+      },
+    }),
 });
