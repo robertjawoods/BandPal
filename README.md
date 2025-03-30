@@ -1,5 +1,7 @@
 # Bandpal
 
+[![.github/workflows/test.yml](https://github.com/robertjawoods/BandPal/actions/workflows/test.yml/badge.svg)](https://github.com/robertjawoods/BandPal/actions/workflows/test.yml)
+
 ## Local Environment Setup
 
 ### Requirements
