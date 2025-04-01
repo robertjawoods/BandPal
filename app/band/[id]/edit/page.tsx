@@ -1,11 +1,11 @@
 'use client'
 
-import { redirect } from "next/navigation";
 import { editBandAction } from "./editBand";
 import { use, useEffect, useState } from "react";
 import { useUser } from "@/app/lib/hooks/useUser";
 import { useAction } from "next-safe-action/hooks";
 import { BandWithMembers } from "@/app/lib/types/band";
+import { useRouter } from "next/navigation";
 
 /**
  * Renders a page for editing a band's details.
@@ -20,11 +20,13 @@ import { BandWithMembers } from "@/app/lib/types/band";
 export default function Page(props: { params: Promise<{ id: string }> }) {
     const params = use(props.params);
 
-    const { user } = useUser();
+    const { user, loading } = useUser();
 
     const [band, setBand] = useState<BandWithMembers>();
 
     const { execute } = useAction(editBandAction);
+
+    const { replace } = useRouter();
 
     useEffect(() => {
         if (!params.id) {
@@ -37,9 +39,6 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
             .catch((error) => console.error(error));
     }, [params.id]);
 
-
-
-    console.log(band);
 
     if (!band) {
         return <div>Band not found</div>
@@ -57,10 +56,26 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
     //     });
     // }
 
-    const isAdmin = user?.id === band.admin.id;
+    const deleteBand = () => {
+        fetch(`/api/band/${band.id}`, {
+            method: 'DELETE',
+        })
+            .then(() => replace('/bands'))
+            .catch((error) => console.error(error));
+    }
+
+    if (!band || loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!user) {
+        return null; // or a loading spinner
+    }
+
+    const isAdmin = user.id === band.admin?.id;
 
     if (!isAdmin) {
-        redirect('/')
+        return <div>Unauthorized</div>;
     }
 
     return <div>
@@ -78,5 +93,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
             <input type="hidden" name="id" value={band.id} />
             <input type="submit" value="Save" />
         </form>
+
+        <button data-testid='delete-button' onClick={() => deleteBand()}>Delete</button>
     </div>
 }
