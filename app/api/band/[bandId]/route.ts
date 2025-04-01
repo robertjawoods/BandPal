@@ -1,16 +1,20 @@
+import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 
-export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
+export async function GET(
+    req: Request,
+    props: { params: Promise<{ bandId: string }> }
+) {
+    const { bandId } = await props.params;
 
-    if (!params.id) {
-        return Response.json("Band ID is required", { status: 400 });
+    console.log(bandId);
+
+    if (!bandId) {
+        return NextResponse.json({ error: "Band ID is required" }, { status: 400 });
     }
 
-    const band = await prisma.band.findFirst({
-        where: {
-            id: params.id,
-        },
+    const band = await prisma.band.findUnique({
+        where: { id: bandId },
         include: {
             members: true,
             admin: true,
@@ -18,8 +22,24 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
     });
 
     if (!band) {
-        return Response.json("Band not found", { status: 404 });
+        return NextResponse.json({ error: "Band not found" }, { status: 404 });
     }
 
-    return Response.json(band, { status: 200 });
+    return NextResponse.json(band);
+}
+
+export async function DELETE(req: Request, props: { params: Promise<{ bandId: string }> }) {
+    const { bandId } = await props.params;
+
+    if (!bandId) {
+        return Response.json("Band ID is required", { status: 400 });
+    }
+
+    await prisma.band.delete({
+        where: {
+            id: bandId,
+        },
+    });
+
+    return Response.json("Band deleted", { status: 200 });
 }

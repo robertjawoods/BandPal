@@ -10,8 +10,6 @@ export default defineConfig({
   workers: isCI ? 3 : undefined,
   reporter: [['html'], ['json', { outputFile: 'test-results.json' }]],
   timeout: isCI ? 5000 : 10000,
-
-
   use: {
     baseURL: isCI ? process.env.PLAYWRIGHT_TEST_BASE_URL : 'http://localhost:3000',
     trace: 'on-first-retry',
@@ -25,7 +23,6 @@ export default defineConfig({
       mode: 'off'
     }
   },
-
   projects: [
     {
       name: 'chromium',
@@ -48,7 +45,6 @@ export default defineConfig({
       use: { ...devices['Pixel 5'] },
     },
   ],
-
   ...(isCI
     ? {}
     : {

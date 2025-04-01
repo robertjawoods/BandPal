@@ -60,7 +60,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       </div>
 
       {isAdmin &&
-        <Link href={`/band/${band.id}/edit`}>
+        <Link href={`/band/${band.id}/edit`} data-testid="edit-button">
           <button className="bg-slate-700 text-white rounded py-2 px-4">Edit Band</button>
         </Link>
       }
