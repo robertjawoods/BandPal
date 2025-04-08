@@ -27,8 +27,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
-.env
+.env*
+
+!.env.example
 
 # vercel
 .vercel
@@ -38,3 +39,7 @@ yarn-error.log*
 next-env.d.ts
 
 *.crt
+.infisical.json
+
+playwright-report
+test-results

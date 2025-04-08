@@ -15,9 +15,18 @@ const nextConfig = {
       },
       {
         hostname: "tailwindui.com",
+      },
+      {
+        protocol: 'https',
+        hostname: 'fpvmuwqjsufybflwwsmi.supabase.co',
       }
     ],
   },
+  //  compiler: { 
+  //   removeConsole: {
+  //     exclude: ['error', 'warn']
+  //   }
+  //  }
 };
 
 export default nextConfig;

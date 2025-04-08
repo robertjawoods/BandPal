@@ -1,11 +1,11 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-
+import { redirect, RedirectType } from 'next/navigation'
 import { createClient } from '@/app/lib/supabase/server'
+import { AuthError } from '@supabase/supabase-js';
 
-const getURL = () => {
+export const getURL = async () => {
   let url =
     process?.env?.NEXT_PUBLIC_SITE_URL ??
     process?.env?.NEXT_PUBLIC_VERCEL_URL ??
@@ -17,6 +17,24 @@ const getURL = () => {
   return url
 }
 
+const parseAuthError = (error: AuthError): string => {
+  console.error(error)
+
+  let message = 'An error occurred'  
+
+  switch (error.message) {
+    case 'INVALID_PASSWORD':
+      message = 'Invalid password'
+      break
+    case 'USER_NOT_FOUND':
+      message = 'User not found'
+      break
+    default:
+      message = error.message
+  }
+
+  return encodeURIComponent(message)
+}
 export async function login(formData: FormData) {
   const supabase = await createClient()
 
@@ -27,7 +45,10 @@ export async function login(formData: FormData) {
 
   const { error } = await supabase.auth.signInWithPassword(data)
 
-  console.log(error)
+  if (error) {
+    console.error(error)
+    redirect(`/error?message=${parseAuthError(error)}`, RedirectType.push)
+  }
 
   revalidatePath('/', 'layout')
   redirect('/')
@@ -47,13 +68,12 @@ export async function signup(formData: FormData) {
     email: data.email,
     password: data.password,
     options: {
-      emailRedirectTo: getURL(),
+      emailRedirectTo: await getURL(),
     },
   })
 
   if (error) {
-    console.log(error)
-    redirect('/error')
+    redirect(`/error?message=${parseAuthError(error)}`, RedirectType.push)
   }
   revalidatePath('/', 'layout')
   redirect('/')

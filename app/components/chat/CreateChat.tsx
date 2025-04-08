@@ -1,12 +1,13 @@
 "use client"
 
+import { getURL } from "@/app/login/actions";
 import { redirect } from "next/navigation";
 
 export default function CreateChat({ userId, currentUserId }: { userId: string, currentUserId: string }) {
     return (
         <div>
             <button onClick={async () => {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chat/create`, {
+                const response = await fetch(`${await getURL()}/api/chat/create`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',

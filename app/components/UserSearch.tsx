@@ -14,10 +14,10 @@ export type AutocompleteItem = {
 
 interface UserSearchProps {
     // eslint-disable-next-line no-unused-vars
-    submitCallback: (item: any) => Promise<any>;
+    callback: (item: any) => Promise<any>;
 }
 
-export default function UserSearch({ submitCallback: callback }: UserSearchProps) {
+export default function UserSearch({ callback }: UserSearchProps) {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const router = useRouter();
 
@@ -67,7 +67,6 @@ export default function UserSearch({ submitCallback: callback }: UserSearchProps
                 ]
             },
         });
-
 
         return () => {
             search.destroy();

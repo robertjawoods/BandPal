@@ -1,24 +1,23 @@
 "use server"
 
-import { redirect } from "next/navigation";
 import prisma from "@/app/lib/prisma";
-import { User } from "@supabase/supabase-js";
+import { zfd } from "zod-form-data";
+import { z } from "zod";
+import { actionClient } from "@/app/lib/safe-action";
+import { getUser } from "@/app/lib/supabase/server";
 
-export async function sendMessage(formData: FormData, user: User | null) {
+const schema = zfd.formData({
+    message: z.string().nonempty(),
+    chatId: z.string().nonempty(),
+});
+
+type SendMessageInput = z.infer<typeof schema>;
+
+export async function sendMessage({ parsedInput: { chatId, message } }: { parsedInput: SendMessageInput }) {
+    const { user } = await getUser();
+
     if (!user) {
-        redirect('/')
-    }
-
-    const message = formData.get('message')?.toString();
-
-    if (!message) {
-        throw new Error('Message is required');
-    }
-
-    const chatId = formData.get('chatId')?.toString();
-
-    if (!chatId) {
-        throw new Error('Chat ID is required');
+        throw new Error('User not found');
     }
 
     const chat = await prisma.chat.findFirst({
@@ -44,3 +43,7 @@ export async function sendMessage(formData: FormData, user: User | null) {
         }
     });
 }
+
+export const sendMessageAction = actionClient.
+    schema(schema).
+    action(sendMessage);

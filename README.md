@@ -1,30 +1,121 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# BandPal
 
-## Getting Started
+[![.github/workflows/test.yml](https://github.com/robertjawoods/BandPal/actions/workflows/test.yml/badge.svg)](https://github.com/robertjawoods/BandPal/actions/workflows/test.yml)
+![Vercel](https://vercelbadge.vercel.app/api/robertjawoods/bandpal)
 
-First, run the development server:
+**BandPal** is a social network for musicians and people looking to join or build a band. It also includes tools for band administration and commerce.
 
-```bash
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧠 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js 15** (App Router)
+- **Bun** (Package manager & runtime)
+- **Supabase** (Auth, Database, Edge Functions, Realtime)
+- **Prisma** (ORM)
+- **Infisical** (Secrets manager for environment variables)
+- **Tailwind CSS**
+- **Playwright** (E2E testing)
+- **Algolia** (Search/autocomplete)
+- **Vercel** (Hosting & CI/CD)
+- **Husky** (Git hooks)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## 🚀 Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+### Requirements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Bun](https://bun.sh/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Infisical CLI](https://infisical.com/docs/cli/quickstart)  
+  _(Install with `bun add -g @infisical/cli` if not already installed)_
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Local Setup
 
-## Deploy on Vercel
+1. Clone the repo  
+2. Install dependencies:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   bun install
+      ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. Start Supabase (runs with Docker):
+
+    ```bash
+    bun supabase:start
+    ```
+
+4. Reset & seed local DB:
+
+    ```bash
+    bun db:reset:dev
+    ```
+
+5. Run the dev server:
+
+    ```bash
+    bun dev
+    ```
+
+6. (One-time) Enable realtime for chat messages:
+
+    i. Visit Supabase Studio
+
+    ii. Navigate to public.Message table
+
+    iii. Enable "Realtime" in the top-right
+
+## 🔗 Links
+
+### [Production Supabase](https://supabase.com/dashboard/project/fpvmuwqjsufybflwwsmi)
+
+### [Local Supabase](http://127.0.0.1:54323/project/default/)
+
+### [Vercel](https://vercel.com/robertjawoods-projects/bandpal/)
+
+### [Bandpal Production](https://bandpal.vercel.app/)
+
+## 🧪 Useful Commands
+
+| Task                  | Command            |
+|-----------------------|--------------------|
+| Start dev server      | `bun dev`          |
+| Start Supabase local  | `bun supabase:start` |
+| Stop Supabase         | `bun supabase:stop` |
+| Reset DB (dev)        | `bun db:reset:dev` |
+| Open Prisma Studio    | `bun studio`       |
+| Run E2E tests (UI)    | `bun test:e2e`     |
+| Run tests (CI)        | `bun test:e2e:ci`  |
+| Lint + fix            | `bun lint`         |
+| Clean project         | `bun clean`        |
+
+## 🔐 Environment Variables
+
+We use Infisical to manage secrets for both development and production.
+
+#### ⚠️ You do not need to create or edit a .env file manually. ⚠️
+
+Use `infisical run --env=dev -- <command>` to inject variables locally. This is handled automatically in all bun scripts.
+
+## 🧭 Architecture Notes
+
+- App Router (Next.js 15) using the `app/` directory
+
+- Database managed with Prisma and Supabase
+
+- Search powered by Algolia
+
+- State management handled inline via server actions and local state
+
+- Realtime chat via Supabase Channels
+
+- Auth via Supabase (email/password & social)
+
+## 🛠 Contribution Workflow
+
+- Use feature branches
+
+- PRs are automatically deployed via Vercel Preview Deployments
+
+- Husky runs pre-commit checks (formatting, linting)

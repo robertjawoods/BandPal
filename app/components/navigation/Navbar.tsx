@@ -1,6 +1,6 @@
 
 import { NavLogo } from "./NavLogo";
-import Account from "../AccountComponent";
+import Account from "./AccountNavigation";
 import { NavigationLinks } from "./NavigationLinks";
 import { createClient } from "@/app/lib/supabase/server";
 

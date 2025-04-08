@@ -2,7 +2,6 @@
 
 import { useUser } from "@/app/lib/hooks/useUser";
 import { use } from "react";
-import { sendMessage } from "./sendMessage";
 import { useChat } from "@/app/lib/hooks/useChat";
 
 export default function ViewChat(props: { params: Promise<{ id: string }> }) {
@@ -10,7 +9,7 @@ export default function ViewChat(props: { params: Promise<{ id: string }> }) {
 
     const { user, error, loading } = useUser();
 
-    const { chat } = useChat(params.id);
+    const { chat, form: { execute } } = useChat(params.id);
 
     if (loading) {
         return <div>Loading...</div>
@@ -46,7 +45,7 @@ export default function ViewChat(props: { params: Promise<{ id: string }> }) {
                 ))}
             </ul>
 
-            <form action={data => sendMessage(data, user)}>
+            <form action={execute}>
                 <label htmlFor="message">Message</label>
                 <input type="text" name="message" placeholder="Enter your message" />
                 <input type="hidden" name="chatId" value={chat.id} />
