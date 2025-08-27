@@ -3,4 +3,4 @@
 </script>
 
 
-<SignIn provider="google"/>
+<SignIn provider="google" />

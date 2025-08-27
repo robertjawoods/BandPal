@@ -17,8 +17,8 @@
 		"test:e2e": "playwright test",
 		"db:start": "docker compose up",
 		"db:push": "drizzle-kit push",
-		"db:generate": "drizzle-kit generate",
-		"db:migrate": "drizzle-kit migrate",
+		"db:generate": "prisma generate",
+		"db:migrate:dev": "prisma migrate dev",
 		"db:studio": "drizzle-kit studio"
 	},
 	"devDependencies": {
@@ -32,6 +32,7 @@
 		"@tailwindcss/typography": "^0.5.15",
 		"@tailwindcss/vite": "^4.0.0",
 		"@types/node": "^22",
+		"@varlock/vite-integration": "^0.0.7",
 		"@vitest/browser": "^3.2.3",
 		"drizzle-kit": "^0.30.6",
 		"eslint": "^9.18.0",
@@ -42,6 +43,7 @@
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
+		"prisma": "^6.14.0",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"tailwindcss": "^4.0.0",
@@ -55,10 +57,12 @@
 	"dependencies": {
 		"@auth/core": "^0.40.0",
 		"@auth/drizzle-adapter": "^1.10.0",
+		"@auth/prisma-adapter": "^2.10.0",
 		"@auth/sveltekit": "^1.10.0",
 		"@node-rs/argon2": "^2.0.2",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
+		"@prisma/client": "^6.14.0",
 		"drizzle-orm": "^0.40.1",
 		"postgres": "^3.4.5"
 	},

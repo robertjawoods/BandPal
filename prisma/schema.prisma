@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Profile   Profile?
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
+}
+
+model Profile {
+  id          String      @id @default(cuid())
+  bio         String?
+  avatarUrl   String?
+  displayName String
+  userId      String      @unique
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  // Bands this profile **owns** (1:N)
+  ownedBands  Band[]      @relation("BandOwner")
+  // Bands this profile **is a member of** (M:N)
+  bands       Band[]      @relation("BandMembers")
+  influences  Influence[]
+
+  createdInfluences Influence[] @relation(name: "creator")
+}
+
+model Band {
+  id                String    @id @default(cuid())
+  name              String
+  slug              String    @unique
+  description       String?
+  lookingForMembers Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
+  // Owner (required). Prisma needs the scalar FK + fields/references.
+  ownerId           String
+  owner             Profile   @relation("BandOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  // Members (M:N) — implicit join table
+  members           Profile[] @relation("BandMembers")
+
+  influences Influence[]
+
+  @@index([ownerId])
+}
+
+model Influence {
+  id        String    @id @default(cuid())
+  // citext gives us case-insensitive unique on Postgres
+  name      String    @unique @db.Citext
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  createdBy String? // Profile.id of creator (optional)
+  creator   Profile?  @relation(name: "creator", fields: [createdBy], references: [id], onDelete: SetNull)
+  bands     Band[] // M:N implicit
+  profiles  Profile[] // M:N implicit
+}
