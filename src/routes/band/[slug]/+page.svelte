@@ -4,27 +4,43 @@
 	let { data }: PageProps = $props();
 </script>
 
-<h1>This is the band page for {data.band?.name}</h1>
+<div class="container mx-auto max-w-2xl p-6">
+	<div class="mb-6 flex items-center justify-between">
+		<h1 class="text-3xl font-bold">{data.band?.name}</h1>
+		<a href="/bands" class="btn-ghost btn">Back to Bands</a>
+	</div>
 
-{#if data.band.ownerId == data.session?.profileId}
-	<p>You are the owner of this band. <a href={`/band/edit/${data.band.slug}`}>Edit Band</a></p>
-{/if}
+	{#if data.band.ownerId == data.session?.profileId}
+		<div class="alert alert-info mb-4 flex items-center gap-2">
+			<span>You are the owner of this band.</span>
+			<a href={`/band/edit/${data.band.slug}`} class="btn-primary btn btn-sm">Edit Band</a>
+		</div>
+	{/if}
 
-<h2>Bio:</h2>
-<p>{data.band?.description ?? 'Empty'}</p>
+	<div class="mb-6">
+		<h2 class="mb-1 text-xl font-semibold">Bio</h2>
+		<p
+			class="rounded-lg border border-surface-200 bg-white p-4 text-surface-700 shadow dark:bg-surface-800 dark:text-surface-200"
+		>
+			{data.band?.description ?? 'Empty'}
+		</p>
+	</div>
 
-<h2>Members:</h2>
-<ul>
-	{#each data.band?.members as member}
-		<li>{member.displayName}</li>
-	{/each}
-</ul>
+	<div class="mb-6">
+		<h2 class="mb-1 text-xl font-semibold">Members</h2>
+		<ul class="flex flex-wrap gap-2">
+			{#each data.band?.members as member}
+				<li class="badge-lg badge-secondary badge">{member.displayName}</li>
+			{/each}
+		</ul>
+	</div>
 
-<h2>Influences:</h2>
-<ul>
-	{#each data.band?.influences as influence}
-		<li>{influence.name}</li>
-	{/each}
-</ul>
-
-<a href="/bands">Back to Bands</a>
+	<div class="mb-6">
+		<h2 class="mb-1 text-xl font-semibold">Influences</h2>
+		<ul class="flex flex-wrap gap-2">
+			{#each data.band?.influences as influence}
+				<li class="badge-lg badge-accent badge">{influence.name}</li>
+			{/each}
+		</ul>
+	</div>
+</div>

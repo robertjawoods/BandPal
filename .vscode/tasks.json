@@ -1,32 +1,32 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      // 👇 parent "compound" task
-      "label": "Dev Workspace",
-      "dependsOn": ["DB", "Dev"],
-      "dependsOrder": "parallel",
-      "runOptions": { "runOn": "folderOpen" }, // auto-run when folder opens (VS Code will ask to allow)
-      "group": "none"
-    },
+	"version": "2.0.0",
+	"tasks": [
+		{
+			// 👇 parent "compound" task
+			"label": "Dev Workspace",
+			"dependsOn": ["DB", "Dev"],
+			"dependsOrder": "parallel",
+			"runOptions": { "runOn": "folderOpen" }, // auto-run when folder opens (VS Code will ask to allow)
+			"group": "none"
+		},
 
-    {
-      "label": "Terminal",
-      "type": "shell",
-      "command": "zsh",
-      "isBackground": true,
-      "problemMatcher": [],
-      // 👇 same group name = same split group
-      "presentation": { "panel": "dedicated", "group": "bandpal" }
-    },
-    {
-      "label": "Dev",
-      "type": "shell",
-      "command": "pnpm dev",
-      "isBackground": true,
-      "problemMatcher": [],
-      // 👇 matches the group above -> opens as a split
-      "presentation": { "panel": "dedicated", "group": "bandpal" }
-    }
-  ]
+		{
+			"label": "Terminal",
+			"type": "shell",
+			"command": "zsh",
+			"isBackground": true,
+			"problemMatcher": [],
+			// 👇 same group name = same split group
+			"presentation": { "panel": "dedicated", "group": "bandpal" }
+		},
+		{
+			"label": "Dev",
+			"type": "shell",
+			"command": "pnpm dev",
+			"isBackground": true,
+			"problemMatcher": [],
+			// 👇 matches the group above -> opens as a split
+			"presentation": { "panel": "dedicated", "group": "bandpal" }
+		}
+	]
 }

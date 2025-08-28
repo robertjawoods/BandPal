@@ -2,11 +2,14 @@ import { slugify } from '$lib';
 import { prisma } from '$lib/server/db';
 import type { Actions } from './$types';
 
-
 export const load = async (event) => {
 	const session = await event.locals.auth();
 
-	const bands = await prisma.band.findMany({});
+	const bands = await prisma.band.findMany({
+		include: {
+			influences: true
+		}
+	});
 
 	return {
 		session,
@@ -48,18 +51,16 @@ export const actions = {
 			return { success: false, message: 'Profile ID not found' };
 		}
 
-		await prisma.band
-			.create({
-				data: {
-					name: bandName,
-					owner: { connect: { id: profile.id } },
-					slug: slugify(bandName),
-					members: {
-						connect: { id: profile.id }
-					}
+		await prisma.band.create({
+			data: {
+				name: bandName,
+				owner: { connect: { id: profile.id } },
+				slug: slugify(bandName),
+				members: {
+					connect: { id: profile.id }
 				}
-			});
-
+			}
+		});
 
 		return { success: true, message: `Band "${bandName}" created successfully` };
 	}

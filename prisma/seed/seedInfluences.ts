@@ -1,0 +1,123 @@
+import { PrismaClient } from '@prisma/client';
+import { slugify } from '../../src/lib/utils/slugify.ts';
+
+export const prisma = new PrismaClient();
+
+export const bands = [
+	'Metallica',
+	'Iron Maiden',
+	'Black Sabbath',
+	'Led Zeppelin',
+	'Deep Purple',
+	'Pink Floyd',
+	'The Beatles',
+	'The Rolling Stones',
+	'Queen',
+	'Nirvana',
+	'Soundgarden',
+	'Pearl Jam',
+	'Alice in Chains',
+	'Foo Fighters',
+	'Red Hot Chili Peppers',
+	'Radiohead',
+	'Muse',
+	'Arctic Monkeys',
+	'The Strokes',
+	'Green Day',
+	'Blink-182',
+	'Sum 41',
+	'My Chemical Romance',
+	'Fall Out Boy',
+	'Paramore',
+	'Linkin Park',
+	'Korn',
+	'Slipknot',
+	'System of a Down',
+	'Tool',
+	'A Perfect Circle',
+	'Opeth',
+	'Gojira',
+	'Mastodon',
+	'Trivium',
+	'Avenged Sevenfold',
+	'Bring Me the Horizon',
+	'Architects',
+	'Parkway Drive',
+	'Lamb of God',
+	'Pantera',
+	'Slayer',
+	'Megadeth',
+	'Anthrax',
+	'Testament',
+	'Cannibal Corpse',
+	'Behemoth',
+	'Emperor',
+	'Mayhem',
+	'Darkthrone'
+];
+
+export const genres = [
+	'Rock',
+	'Hard Rock',
+	'Classic Rock',
+	'Progressive Rock',
+	'Psychedelic Rock',
+	'Blues Rock',
+	'Indie Rock',
+	'Garage Rock',
+	'Alternative Rock',
+	'Grunge',
+	'Punk',
+	'Pop Punk',
+	'Post-Punk',
+	'Hardcore Punk',
+	'Emo',
+	'Screamo',
+	'Metal',
+	'Heavy Metal',
+	'Thrash Metal',
+	'Death Metal',
+	'Melodic Death Metal',
+	'Technical Death Metal',
+	'Black Metal',
+	'Symphonic Black Metal',
+	'Progressive Metal',
+	'Djent',
+	'Nu Metal',
+	'Industrial Metal',
+	'Groove Metal',
+	'Metalcore',
+	'Deathcore',
+	'Post-Hardcore',
+	'Mathcore',
+	'Sludge Metal',
+	'Doom Metal',
+	'Stoner Metal',
+	'Power Metal',
+	'Folk Metal',
+	'Viking Metal',
+	'Gothic Metal',
+	'Speed Metal',
+	'Alternative Metal',
+	'Rap Metal',
+	'Jazz Fusion',
+	'Blues',
+	'Funk',
+	'Soul',
+	'Reggae',
+	'Electronic',
+	'Ambient'
+];
+
+export const seedInfluences = async () => {
+	for (const influence of [...genres, ...bands]) {
+		console.log(`Upserting influence: ${influence}`);
+		await prisma.influence.upsert({
+			where: {
+				slug: slugify(influence)
+			},
+			update: {},
+			create: { name: influence, slug: slugify(influence) }
+		});
+	}
+};

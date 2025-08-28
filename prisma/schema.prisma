@@ -121,7 +121,7 @@ model Band {
 model Influence {
   id        String    @id @default(cuid())
   // citext gives us case-insensitive unique on Postgres
-  name      String    @unique @db.Citext
+  name      String    @unique
   slug      String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

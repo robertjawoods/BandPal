@@ -9,12 +9,15 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		typescript: {
-			config: (tsconfig) => {				
-				tsconfig.include = [...(tsconfig.include ?? []), ...['src/**/*.d.ts', 'src/**/*.ts', 'src/**/*.svelte']];
+			config: (tsconfig) => {
+				tsconfig.include = [
+					...(tsconfig.include ?? []),
+					...['src/**/*.d.ts', 'src/**/*.ts', 'src/**/*.svelte']
+				];
 
 				return tsconfig;
 			}
-		},
+		}
 	}
-}
+};
 export default config;
