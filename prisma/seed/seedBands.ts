@@ -57,7 +57,7 @@ export const seedBands = async () => {
     const bandInfluencesData: BandInfluence[][] = [];
     const bandMembersData: BandMember[][] = [];
 
-    let bandCount = 0, bandLimit = 10000;
+    let bandCount = 0, bandLimit = 50;
     while (bandsData.length < bandLimit) {
         const name = `${faker.helpers.arrayElement(propositions)} ${faker.helpers.arrayElement(adjectives)} ${faker.helpers.arrayElement(nouns)}`;
         const slug = slugify(name);
