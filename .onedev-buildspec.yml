@@ -12,7 +12,7 @@ jobs:
   - !CommandStep
     name: Install pnpm
     runInContainer: true
-    image: timbru31/node-alpine-git:24
+    image: node:18-alpine
     interpreter: !ShellInterpreter
       shell: sh
       commands: |
