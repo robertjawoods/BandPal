@@ -45,10 +45,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy --project-name=bandpal
-          secrets: |
-            DATABASE_URL
-            DATABASE_READ_URL
-            AUTH_SECRET
-            AUTH_GOOGLE_SECRET
-            AUTH_GOOGLE_ID
+
         
