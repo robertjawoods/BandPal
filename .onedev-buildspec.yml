@@ -16,7 +16,7 @@ jobs:
     interpreter: !ShellInterpreter
       shell: sh
       commands: |
-        wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
+        wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh -
     useTTY: true
     condition: SUCCESSFUL
     optional: false
