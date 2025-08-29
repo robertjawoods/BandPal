@@ -12,7 +12,6 @@ declare global {
 			authHelpers: {
 				signIn: typeof import('@auth/sveltekit').signIn;
 				signOut: typeof import('@auth/sveltekit').signOut;
-				getSession: () => Promise<import('@auth/core/types').Session | null>;
 			};
 			prisma: PrismaClient;
 		}

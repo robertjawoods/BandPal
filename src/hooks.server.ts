@@ -48,7 +48,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.locals.authHelpers = {
         signIn: auth.signIn,
         signOut: auth.signOut,
-        getSession: () => event.locals.auth() 
     }
 
     event.locals.prisma = prisma;

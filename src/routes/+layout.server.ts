@@ -1,7 +1,7 @@
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ params, locals }) => {
-	const session = await locals.authHelpers.getSession();
+	const session = await locals.auth();
 
 	if (session) {
 		const profile = await locals.prisma.profile.findFirst({
