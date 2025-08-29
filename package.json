@@ -16,7 +16,7 @@
 		"test": "npm run test:unit -- --run && npm run test:e2e",
 		"test:e2e": "playwright test",
 		"db:start": "docker compose up",
-		"db:generate": "prisma generate --no-engine",
+		"db:generate": "prisma generate",
 		"db:migrate:dev": "prisma migrate dev",
 		"db:studio": "drizzle-kit studio",
 		"db:seed": "ts-node prisma/seed/seed.ts"
