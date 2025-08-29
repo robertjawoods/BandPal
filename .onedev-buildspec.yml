@@ -1,6 +1,27 @@
 version: 40
 jobs:
 - name: Publish To Cloudflare Pages
+  steps:
+  - !CheckoutStep
+    name: Checkout Code
+    cloneCredential: !DefaultCredential {}
+    withLfs: false
+    withSubmodules: false
+    condition: SUCCESSFUL
+    optional: false
+  - !CommandStep
+    name: Install pnpm
+    runInContainer: true
+    image: timbru31/node-alpine-git:24
+    interpreter: !ShellInterpreter
+      shell: bash
+      commands: |
+        wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
+    useTTY: true
+    condition: SUCCESSFUL
+    optional: false
+  triggers:
+  - !BranchUpdateTrigger {}
   retryCondition: never
   maxRetries: 3
   retryDelay: 30
