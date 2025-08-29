@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
-    
+  deploy:    
     environment: Production
+
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       DATABASE_READ_URL: ${{ secrets.DATABASE_READ_URL }}
@@ -20,7 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+        run: |
+          echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          if [ "$GITHUB_REF_NAME" = "main" ]; then
+            echo "ENVIRONMENT_NAME=Production" >> $GITHUB_ENV
+          else
+            echo "ENVIRONMENT_NAME=Development" >> $GITHUB_ENV
+          fi
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,5 +56,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy --project-name=bandpal --branch=${{ env.BRANCH_NAME }}
-
-        
+       
