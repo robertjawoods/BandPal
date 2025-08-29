@@ -1,16 +1,16 @@
-import { prisma } from '$lib/server/db';
+
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-	const session = await locals.auth();
+	const session = await locals.getSession();
 
 	const slug = params.slug;
 	if (!slug) {
 		throw fail(400, { message: 'slug is required' });
 	}
 
-	const band = await prisma.band.findFirst({
+	const band = await locals.prisma.band.findFirst({
 		where: { slug },
 		include: {
 			members: { select: { id: true, displayName: true } },

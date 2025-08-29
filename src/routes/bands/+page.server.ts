@@ -1,11 +1,10 @@
 import { slugify } from '$lib';
-import { prisma } from '$lib/server/db';
 import type { Actions } from './$types';
 
-export const load = async (event) => {
-	const session = await event.locals.auth();
+export const load = async ({locals}) => {
+	const session = await locals.auth();
 
-	const bands = await prisma.band.findMany({
+	const bands = await locals.prisma.band.findMany({
 		include: {
 			influences: true
 		}
@@ -18,13 +17,13 @@ export const load = async (event) => {
 };
 
 export const actions = {
-	createBand: async (event) => {
-		const session = await event.locals.auth();
+	createBand: async ({request, locals}) => {
+		const session = await locals.auth();
 		if (!session) {
 			return { success: false, message: 'Not authenticated' };
 		}
 
-		const formData = await event.request.formData();
+		const formData = await request.formData();
 		const bandName = formData.get('bandName');
 
 		if (!bandName || typeof bandName !== 'string') {
@@ -37,7 +36,7 @@ export const actions = {
 			return { success: false, message: 'User ID not found in session' };
 		}
 
-		const profile = await prisma.profile.findFirst({
+		const profile = await locals.prisma.profile.findFirst({
 			where: {
 				userId: session.user.id
 			}
@@ -51,7 +50,7 @@ export const actions = {
 			return { success: false, message: 'Profile ID not found' };
 		}
 
-		await prisma.band.create({
+		await locals.prisma.band.create({
 			data: {
 				name: bandName,
 				owner: { connect: { id: profile.id } },

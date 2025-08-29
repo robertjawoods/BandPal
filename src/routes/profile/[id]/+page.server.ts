@@ -1,4 +1,3 @@
-import { prisma } from '$lib/server/db';
 import { error } from '@sveltejs/kit';
 
 export const load = async ({ locals, params }) => {
@@ -8,7 +7,7 @@ export const load = async ({ locals, params }) => {
 		throw error(400, { message: 'Profile ID is required' });
 	}
 
-	const profile = await prisma.profile.findFirst({
+	const profile = await locals.prisma.profile.findFirst({
 		where: { id: profileId },
 		include: {
 			bands: true,

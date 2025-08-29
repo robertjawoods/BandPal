@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    
     environment: Production
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -17,6 +18,9 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      - name: Set branch name
+        run: echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -44,6 +48,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy --project-name=bandpal
+          command: pages deploy --project-name=bandpal --branch=${{ env.BRANCH_NAME }}
 
         

@@ -1,0 +1,14 @@
+{
+    "name": "bandpal",
+    "pages_build_output_dir": ".svelte-kit/cloudflare",
+    "compatibility_date": "2025-02-04",
+    "compatibility_flags": [
+        "nodejs_compat"
+    ],
+    "hyperdrive": [
+        {
+            "binding": "HYPERDRIVE",
+            "id": "f2c66017b221453d97df22aedf5fe811",
+        }
+    ]
+}
