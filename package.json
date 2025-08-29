@@ -16,7 +16,7 @@
 		"test": "npm run test:unit -- --run && npm run test:e2e",
 		"test:e2e": "playwright test",
 		"db:start": "docker compose up",
-		"db:generate": "prisma generate",
+		"db:generate": "prisma generate --no-engine",
 		"db:migrate:dev": "prisma migrate dev",
 		"db:studio": "drizzle-kit studio",
 		"db:seed": "ts-node prisma/seed/seed.ts"
@@ -68,6 +68,7 @@
 		"@oslojs/encoding": "^1.1.0",
 		"@prisma/adapter-neon": "^6.15.0",
 		"@prisma/client": "^6.15.0",
+		"@prisma/extension-accelerate": "^2.0.2",
 		"@prisma/extension-read-replicas": "^0.4.1",
 		"postgres": "^3.4.7"
 	},
