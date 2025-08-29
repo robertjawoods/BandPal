@@ -1,9 +1,12 @@
-@import 'tailwindcss';
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
-
 @import '@skeletonlabs/skeleton';
 @import '@skeletonlabs/skeleton/optional/presets';
-@import '@skeletonlabs/skeleton/themes/cerberus';
+@import '@skeletonlabs/skeleton/themes/mint';
 
-@source '../node_modules/@skeletonlabs/skeleton-svelte/dist';
+
+@import '@skeletonlabs/skeleton/tailwind.css';
+@import '@skeletonlabs/skeleton/themes/mint.css';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+

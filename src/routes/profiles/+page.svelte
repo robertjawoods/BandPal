@@ -6,6 +6,7 @@
 </script>
 
 <div class="container mx-auto p-6">
+	<h1 class="mb-6 text-3xl font-bold">Profiles</h1>
 	{#if data.profiles.length > 0}
 		<ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 			{#each data.profiles as profile}

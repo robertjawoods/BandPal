@@ -16,9 +16,7 @@
 
 	<div class="mb-6">
 		<h2 class="mb-1 text-xl font-semibold">Bio</h2>
-		<p
-			class="rounded-lg border border-surface-200 bg-white p-4 text-surface-700 shadow dark:bg-surface-800 dark:text-surface-200"
-		>
+		<p class="p-4 text-surface-700 shadow dark:bg-surface-800 dark:text-surface-200">
 			{data.profile?.bio ?? 'No bio available.'}
 		</p>
 	</div>
@@ -47,7 +45,9 @@
 		{#if data.profile?.influences.length > 0}
 			<ul class="flex flex-wrap gap-2">
 				{#each data.profile.influences as influence}
-					<li class="badge-lg badge-accent badge">{influence.name}</li>
+					<div class="badge preset-filled">
+						<li>{influence.name}</li>
+					</div>
 				{/each}
 			</ul>
 		{:else}
@@ -61,7 +61,12 @@
 			<ul class="flex flex-wrap gap-2">
 				{#each data.profile.bands as band}
 					<li>
-						<a href={`/band/${band.slug}`} class="badge-lg badge-primary badge">{band.name}</a>
+						<a
+							href={`/band/${band.slug}`}
+							class="badge preset-filled {band.ownerId === data.profile.id
+								? 'text-emerald-500'
+								: ''}">{band.name}</a
+						>
 					</li>
 				{/each}
 			</ul>

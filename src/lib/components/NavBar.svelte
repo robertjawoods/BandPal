@@ -16,7 +16,7 @@
 	<div class="flex flex-1 items-center justify-end gap-2">
 		{#if data?.session}
 			<a
-				href={data.session.profileId ? `/profile/${data.session.profileId}` : '/profiles'}
+				href='/profile/{data.session.profileId}'
 				class="avatar btn-ghost btn-md btn flex h-12 placeholder w-12 items-center justify-center overflow-hidden rounded-full border-2 border-primary-400 p-0"
 				title="Profile"
 			>
@@ -28,7 +28,7 @@
 					/>
 				{:else}
 					<span class="text-xl font-bold uppercase"
-						>{data.session.profile?.displayName?.[0] ?? data.session.user?.email?.[0] ?? '?'}</span
+						>{(data.session.profile?.displayName?.[0]).toUpper() ?? data.session.user?.email?.[0] ?? '?'}</span
 					>
 				{/if}
 			</a>
