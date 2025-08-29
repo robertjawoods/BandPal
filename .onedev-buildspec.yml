@@ -14,7 +14,7 @@ jobs:
     runInContainer: true
     image: timbru31/node-alpine-git:24
     interpreter: !ShellInterpreter
-      shell: bash
+      shell: sh
       commands: |
         wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
     useTTY: true
