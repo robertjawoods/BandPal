@@ -1,0 +1,7 @@
+version: 40
+jobs:
+- name: Publish To Cloudflare Pages
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 14400
