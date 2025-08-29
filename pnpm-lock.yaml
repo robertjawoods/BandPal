@@ -142,6 +142,9 @@ devDependencies:
   vitest-browser-svelte:
     specifier: ^0.1.0
     version: 0.1.0(@vitest/browser@3.2.4)(svelte@5.38.5)(vitest@3.2.4)
+  wrangler:
+    specifier: ^4.33.1
+    version: 4.33.1
 
 packages:
 
