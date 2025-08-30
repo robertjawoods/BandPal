@@ -44,6 +44,7 @@
 - Use `onclick={...}` for DOM events, not `on:click`.
 - Use `bind:value` for form fields, not `value` attribute.
 - Use `let { data, form } = $props();` in page components to access load data and form state.
+- Use Tailwind CSS for styling (see `tailwind.config.cs`) and the Skeleton UI component library
 
 ## Integration Points
 

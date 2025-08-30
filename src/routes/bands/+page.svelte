@@ -34,45 +34,46 @@
 	$effect(() => console.info('🚀 ~ filteredBands:', filteredBands()));
 </script>
 
-<div class="container mx-auto p-6">
-	<div class="mb-6 flex items-center justify-between">
-		<h1 class="text-3xl font-bold">Bands</h1>
-		{#if data.session}
-			<button class="btn-primary btn" onclick={() => (showCreate = !showCreate)}>
-				{showCreate ? 'Cancel' : 'Create New Band'}
-			</button>
-		{/if}
-	</div>
-
-	{#if data.session && showCreate}
-		<div class="mb-8">
-			<form
-				method="POST"
-				action="?/createBand"
-				class="border-surface-200 dark:bg-surface-800 flex items-end gap-2 rounded-lg border bg-white p-4 shadow"
-			>
-				<div class="form-control flex-1">
-					<label for="bandName" class="label label-text font-semibold">Band Name</label>
-					<input
-						name="bandName"
-						id="bandName"
-						type="text"
-						class="input-filled input w-full"
-						required
-					/>
-				</div>
-				<button class="btn-primary btn" type="submit">Create</button>
-			</form>
+<div class="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 py-10 px-2 text-white">
+	<div class="max-w-6xl mx-auto">
+		<div class="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+			<h1 class="text-4xl font-extrabold tracking-tight drop-shadow-xl">Bands</h1>
+			{#if data.session}
+				<button class="btn btn-primary px-6 py-3 rounded-lg text-lg font-semibold shadow-lg bg-purple-600 hover:bg-purple-500 transition-colors" onclick={() => (showCreate = !showCreate)}>
+					{showCreate ? 'Cancel' : 'Create New Band'}
+				</button>
+			{/if}
 		</div>
-	{/if}
 
-	<!-- Filter Bar -->
-	<div class="mb-6 flex flex-wrap items-center gap-4">
-		<span class="font-semibold">Filter:</span>
-			<div class="flex flex-wrap gap-2" role="group" aria-label="Band filter">
+		{#if data.session && showCreate}
+			<div class="mb-10">
+				<form
+					method="POST"
+					action="?/createBand"
+					class="flex flex-col sm:flex-row items-end gap-4 rounded-xl bg-white/10 p-6 shadow-lg border border-purple-300"
+				>
+					<div class="form-control flex-1">
+						<label for="bandName" class="label label-text font-semibold text-white">Band Name</label>
+						<input
+							name="bandName"
+							id="bandName"
+							type="text"
+							class="input input-filled w-full bg-white/80 text-gray-900 placeholder:text-gray-400"
+							required
+						/>
+					</div>
+					<button class="btn btn-primary px-6 py-2 rounded-lg font-semibold shadow bg-purple-600 hover:bg-purple-500 text-white border border-purple-400 transition-colors" type="submit">Create</button>
+				</form>
+			</div>
+		{/if}
+
+		<!-- Filter Bar -->
+		<div class="mb-10 flex flex-col md:flex-row md:items-center gap-6 bg-white/10 rounded-xl p-6 shadow">
+			<div class="flex flex-wrap gap-2 items-center" role="group" aria-label="Band filter">
+				<span class="font-semibold text-white mr-2">Filter:</span>
 				<button
 					type="button"
-					class="badge preset-filled px-4 py-2 cursor-pointer transition-colors border border-primary-300 bg-primary-50 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-400 {filter === 'all' ? 'badge-primary  bg-primary-600 border-primary-600' : ''}"
+					class="px-4 py-2 rounded-full font-semibold border border-purple-300 bg-purple-700/70 hover:bg-purple-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 {filter === 'all' ? 'ring-2 ring-purple-300 bg-purple-500' : ''}"
 					aria-pressed={filter === 'all'}
 					onclick={() => filter = 'all'}
 				>
@@ -80,7 +81,7 @@
 				</button>
 				<button
 					type="button"
-					class="badge preset-filled px-4 py-2 cursor-pointer transition-colors border border-primary-300 bg-primary-50 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-400 {filter === 'looking' ? 'badge-primary  bg-primary-600 border-primary-600' : ''}"
+					class="px-4 py-2 rounded-full font-semibold border border-purple-300 bg-purple-700/70 hover:bg-purple-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 {filter === 'looking' ? 'ring-2 ring-purple-300 bg-purple-500' : ''}"
 					aria-pressed={filter === 'looking'}
 					onclick={() => filter = 'looking'}
 				>
@@ -88,7 +89,7 @@
 				</button>
 				<button
 					type="button"
-					class="badge preset-filled px-4 py-2 cursor-pointer transition-colors border border-primary-300 bg-primary-50 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-400 {filter === 'not-looking' ? 'badge-primary  bg-primary-600 border-primary-600' : ''}"
+					class="px-4 py-2 rounded-full font-semibold border border-purple-300 bg-purple-700/70 hover:bg-purple-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 {filter === 'not-looking' ? 'ring-2 ring-purple-300 bg-purple-500' : ''}"
 					aria-pressed={filter === 'not-looking'}
 					onclick={() => filter = 'not-looking'}
 				>
@@ -97,7 +98,7 @@
 				{#if data.session}
 					<button
 						type="button"
-						class="badge preset-filled px-4 py-2 cursor-pointer transition-colors border border-primary-300 bg-primary-50 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-400 {filter === 'my-bands' ? 'badge-primary  bg-primary-600 border-primary-600' : ''}"
+						class="px-4 py-2 rounded-full font-semibold border border-purple-300 bg-purple-700/70 hover:bg-purple-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 {filter === 'my-bands' ? 'ring-2 ring-purple-300 bg-purple-500' : ''}"
 						aria-pressed={filter === 'my-bands'}
 						onclick={() => filter = 'my-bands'}
 					>
@@ -105,47 +106,46 @@
 					</button>
 				{/if}
 			</div>
-		<!-- Influence MultiSelect Filter -->
-		<div class="form-control w-full">
-			<InfluenceMultiSelect influences={selectedInfluences} onSelect={onSelect} onRemove={onRemove}/>
+			<!-- Influence MultiSelect Filter -->
+			<div class="form-control w-full md:w-auto">
+				<InfluenceMultiSelect influences={selectedInfluences} onSelect={onSelect} onRemove={onRemove}/>
+			</div>
 		</div>
-	</div>
 
-	{#if filteredBands().length > 0}
-		<ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-			{#each filteredBands() as band}
+		{#if filteredBands().length > 0}
+			<ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+				{#each filteredBands() as band}
 					<li>
 						<a
 							href="/band/{band.slug}"
-							class="border-surface-200 hover:bg-primary-50 dark:bg-surface-800 dark:hover:bg-primary-900 relative block h-full min-h-[140px] rounded-lg border bg-white p-4 pt-10 sm:pt-4 font-medium shadow-sm transition-colors"
+							class="relative block h-full min-h-[160px] rounded-2xl border border-purple-300 bg-white/10 p-6 pt-12 font-medium shadow-lg hover:scale-[1.025] hover:bg-purple-800/30 transition-all"
 						>
-										{#if band.lookingForMembers !== undefined}
-											<span class="absolute top-2 right-2 z-10 sm:top-3 sm:right-3">
-												<span
-													class="inline-block h-4 w-4 rounded-full border-2 border-white shadow-sm"
-													style="background-color: {band.lookingForMembers ? '#22c55e' : '#ef4444'}"
-													title={band.lookingForMembers ? 'Looking for members' : 'Not looking for members'}
-												></span>
-											</span>
-										{/if}
+							{#if band.lookingForMembers !== undefined}
+								<span class="absolute top-4 right-4 z-10">
+									<span
+										class="inline-block h-5 w-5 rounded-full border-2 border-white shadow"
+										style="background-color: {band.lookingForMembers ? '#22c55e' : '#ef4444'}"
+										title={band.lookingForMembers ? 'Looking for members' : 'Not looking for members'}
+									></span>
+								</span>
+							{/if}
 							<div class="flex flex-col gap-3">
-								<span class="text-lg font-semibold">{band.name}</span>
-								<span class="text-surface-600 dark:text-surface-300 line-clamp-2 text-sm"
-									>{band.description ?? 'No description.'}</span
-								>
+								<span class="text-xl font-bold text-white drop-shadow">{band.name}</span>
+								<span class="text-indigo-100 line-clamp-2 text-sm">{band.description ?? 'No description.'}</span>
 								{#if band.influences?.length > 0}
-									<div class="mt-1 flex flex-wrap gap-1">
+									<div class="mt-1 flex flex-wrap gap-2">
 										{#each band.influences.slice(0, 3) as influence}
-											<span class="badge preset-filled ">{influence.name}</span>
+											<span class="bg-purple-600/80 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">{influence.name}</span>
 										{/each}
 									</div>
 								{/if}
 							</div>
 						</a>
 					</li>
-			{/each}
-		</ul>
-	{:else}
-		<p class="text-surface-500 mt-6">No bands found.</p>
-	{/if}
+				{/each}
+			</ul>
+		{:else}
+			<p class="text-indigo-200 mt-10 text-lg text-center">No bands found.</p>
+		{/if}
+	</div>
 </div>
