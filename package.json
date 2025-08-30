@@ -18,7 +18,8 @@
 		"db:start": "docker compose up",
 		"db:generate": "prisma generate",
 		"db:migrate:dev": "prisma migrate dev",
-		"db:studio": "drizzle-kit studio",
+		"db:migrate": "prisma migrate deploy",
+		"db:studio": "prisma studio",
 		"db:seed": "ts-node prisma/seed/seed.ts"
 	},
 	"devDependencies": {
